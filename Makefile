@@ -19,10 +19,7 @@ install-deps:
 	mix ecto.migrate
 
 install-linux: create-db-user install-deps
-	npm test
 
 install-mac: install-deps
-	npm test
 
 fresh-install-linux: reset-db create-db-user install-deps
-	npm test

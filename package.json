@@ -1,32 +1,28 @@
 {
   "scripts": {
-    "install-deps": "mix deps.get && npm i && cd priv/react_app && npm i && cd ../..",
+    "install-deps": "mix deps.get && npm i",
     "dev-backend": "mix phx.server",
-    "dev-frontend": "cd priv/react_app && npm start",
-    "dev": "npm-run-all -p dev-backend dev-frontend",
+    "dev": "npm-run-all -p dev-backend",
     "testwatch-backend": "mix test.watch",
-    "testwatch-frontend": "cd priv/react_app && npm run test-watch",
     "startS3": "s3rver -p 4567 --silent -d $HOME/.s3bucket &",
     "stopS3": "kill $(pgrep -f s3rver)",
     "test-backend": "npm run startS3 && MIX_ENV=test mix do compile, test --trace",
-    "test-frontend": "cd priv/react_app && npm run test && cd ../..",
-    "test": "npm run test-backend && npm run test-frontend",
+    "test": "npm run test-backend",
     "test-coverage-backend": "MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace",
-    "test-coverage-frontend": "cd priv/react_app && npm run test-coverage; cd ../..",
     "generate-docs": "apidoc -i web -o docs",
-    "validate-editorconfig": "eclint check * 'web/**/*' 'test/**/*' 'priv/gettext/**/*' 'priv/repo/**/*' 'priv/react_app/src/**/*' 'priv/react_app/*' 'lib/**/*' 'config/**/*'",
+    "validate-editorconfig": "eclint check * 'web/**/*' 'test/**/*' 'lib/**/*' 'config/**/*' 'repo/**/*'",
     "update-toc-readme": "doctoc README.md --github",
     "download-prod-db": "MIX_ENV=dev mix ecto.drop && heroku pg:pull -a arkad-nexpo DATABASE_URL nexpo_dev"
   },
   "devDependencies": {
-    "apidoc": "^0.17.7",
+    "apidoc": "^0.23.0",
     "doctoc": "^1.4.0",
     "eclint": "^2.8.1",
     "npm-run-all": "^4.1.5",
-    "s3rver": "^2.2.9"
+    "s3rver": "^3.6.1"
   },
   "engines": {
-    "node": "11.9.0",
-    "npm": ">6.5.0"
+    "node": "12.18.0",
+    "npm": ">6.14.0"
   }
 }

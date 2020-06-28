@@ -5,7 +5,7 @@ defmodule Nexpo.Mixfile do
     [
       app: :nexpo,
       version: "0.0.1",
-      elixir: "~> 1.8.2",
+      elixir: "~> 1.10.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
@@ -49,33 +49,33 @@ defmodule Nexpo.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.6"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
-      {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 1.0"},
-      {:ex_machina, "~> 2.0"},
-      {:poison, "~> 2.0"},
-      {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
-      {:cors_plug, "~> 1.3"},
-      {:plug_static_index_html, "~> 0.1.2"},
-      {:ex_json_schema, "~> 0.5.4"},
-      {:sentry, "~> 7.0.0"},
-      {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 0.12"},
-      {:guardian, "~> 0.14.5"},
-      {:bamboo, "~> 0.8"},
-      {:excoveralls, "~> 0.7", only: :test},
-      {:arc, "~> 0.10.0"},
-      {:arc_ecto, "~> 0.10.0"},
-      {:ex_aws, "~> 2.0"},
+      {:phoenix, "~> 1.5"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:postgrex, ">= 0.15"},
+      {:phoenix_html, "~> 2.14"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:gettext, "~> 0.18"},
+      {:jason, "~> 1.2"},
+      {:plug_cowboy, "~> 2.3"},
+      {:ex_machina, "~> 2.4"},
+      {:poison, "~> 4.0"},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
+      {:cors_plug, "~> 2.0"},
+      {:plug_static_index_html, "~> 1.0.0"},
+      {:ex_json_schema, "~> 0.7.4"},
+      {:sentry, "~> 7.2.4"},
+      {:comeonin, "~> 5.3"},
+      {:bcrypt_elixir, "~> 2.2"},
+      {:guardian, "~> 2.1.1"},
+      {:bamboo, "~> 1.5"},
+      {:excoveralls, "~> 0.13", only: :test},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.3"},
+      {:ex_aws, "~> 2.1.3"},
       {:ex_aws_s3, "~> 2.0"},
-      {:hackney, "~> 1.6"},
-      {:httpoison, "~> 0.13"},
+      {:hackney, "~> 1.16"},
+      {:httpoison, "~> 1.17"},
       {:sweet_xml, "~> 0.6"}
     ]
   end
@@ -88,7 +88,7 @@ defmodule Nexpo.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
