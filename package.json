@@ -16,8 +16,13 @@
   },
   "devDependencies": {
     "apidoc": "^0.23.0",
+    "axios": "^0.19.2",
     "doctoc": "^1.4.0",
     "eclint": "^2.8.1",
+    "extend": "^3.0.2",
+    "lodash": "^4.17.15",
+    "mem": "^6.1.0",
+    "minimist": "^1.2.5",
     "npm-run-all": "^4.1.5",
     "s3rver": "^3.6.1"
   },
