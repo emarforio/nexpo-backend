@@ -3,12 +3,6 @@
 # PWD is already ./priv/react_app
 # Specified by assets_path in phoenix_static_buildpack.config
 
-# Build assets
-npm run build
-# gzip files and prepare for static serving
-cd ../..
-mix phx.digest priv/react_app/build -o priv/static
-
 # It seems create-react-app digests stuff for us
 # Otherwise, this is the default phoenix way
 # cd $phoenix_dir

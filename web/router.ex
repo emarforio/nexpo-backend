@@ -120,12 +120,4 @@ defmodule Nexpo.Router do
     get("/password/forgot/:key", UserController, :forgot_password_verification)
     post("/password/new/:key", UserController, :replace_forgotten_password)
   end
-
-  scope "/", Nexpo do
-    # Use the default browser stack
-    pipe_through(:browser)
-
-    # Catch all other routes, and serve frontend from them
-    get("/*path", PageController, :serve_frontend)
-  end
 end

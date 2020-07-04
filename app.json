@@ -1,53 +1,50 @@
 {
-    "name": "nexpo",
-    "scripts": {
-      "postdeploy": "DB_POOL_SIZE=2 && mix ecto.migrate && mix run priv/repo/seeds.exs"
+  "name": "nexpo-backend",
+  "scripts": {
+    "postdeploy": "DB_POOL_SIZE=2 && mix ecto.migrate && mix run priv/repo/seeds.exs"
+  },
+  "env": {
+    "DB_POOL_SIZE": "15",
+    "STAGING": "TRUE",
+    "HOST_NAME": {
+      "required": true
     },
-    "env": {
-      "DB_POOL_SIZE": "15",
-      "STAGING": "TRUE",
-      "HOST_NAME": {
-        "required": true
-      },
-      "HEROKU_APP_NAME": {
-        "required": true
-      },
-      "MIX_ENV": {
-        "required": true
-      },
-      "REACT_APP_SENTRY_DSN": {
-        "required": true
-      },
-      "SECRET_KEY_BASE": {
-        "required": true
-      },
-      "SENTRY_DSN": {
-        "required": true
-      },
-      "SMTP_PASSWORD": {
-        "required": true
-      },
-      "SMTP_SERVER_NAME": {
-        "required": true
-      },
-      "SMTP_SERVER_PORT": {
-        "required": true
-      },
-      "SMTP_USERNAME": {
-        "required": true
-      }
+    "HEROKU_APP_NAME": {
+      "required": true
     },
-    "formation": {},
-    "addons": [
-      "heroku-postgresql",
-      "sentry"
-    ],
-    "buildpacks": [
-      {
-        "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
-      },
-      {
-        "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
-      }
-    ]
-  }
+    "MIX_ENV": {
+      "required": true
+    },
+    "REACT_APP_SENTRY_DSN": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SENTRY_DSN": {
+      "required": true
+    },
+    "SMTP_PASSWORD": {
+      "required": true
+    },
+    "SMTP_SERVER_NAME": {
+      "required": true
+    },
+    "SMTP_SERVER_PORT": {
+      "required": true
+    },
+    "SMTP_USERNAME": {
+      "required": true
+    }
+  },
+  "formation": {},
+  "addons": ["heroku-postgresql", "sentry"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/HashNuke/heroku-buildpack-elixir.git"
+    },
+    {
+      "url": "https://github.com/gjaldon/heroku-buildpack-phoenix-static.git"
+    }
+  ]
+}

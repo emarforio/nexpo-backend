@@ -6,8 +6,7 @@ if Mix.env() == :dev do
     clear: true
 end
 
-config :nexpo,
-  frontend_url: "http://localhost:3000"
+
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -28,7 +27,6 @@ config :nexpo, Nexpo.Endpoint,
 config :nexpo, Nexpo.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
@@ -53,7 +51,7 @@ config :nexpo, Nexpo.Repo,
   database: "nexpo_dev",
   pool_size: 10,
   username: "nexpo",
-  password: "nexpo
+  password: "nexpo"
 
 config :arc,
   # or Arc.Storage.Local
