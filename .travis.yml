@@ -12,7 +12,7 @@ matrix:
         - mix local.hex --force
         - mix deps.get
       script:
-        - npm run test-coverage-backend
+        - MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace
       after_success:
         - bash <(curl -s https://codecov.io/bash)
       after_script:
