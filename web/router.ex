@@ -108,10 +108,6 @@ defmodule Nexpo.Router do
 
     post("/login", SessionController, :create)
 
-    if Mix.env() != :prod do
-      post("/development_login", SessionController, :development_create)
-    end
-
     post("/initial_signup", SignupController, :create)
     get("/initial_signup/:key", SignupController, :get_current_signup)
     post("/final_signup/:signup_key", SignupController, :final_create)
