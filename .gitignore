@@ -20,7 +20,7 @@ erl_crash.dump
 /config/prod.secret.exs
 
 #config due to new behavior on linux
-/config/
+#/config/
 
 # Ignore test coverage reports
 cover/

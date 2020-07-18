@@ -23,7 +23,7 @@ config :nexpo, Nexpo.Repo,
   database: "nexpo_test",
   pool: Ecto.Adapters.SQL.Sandbox,
   username: "nexpo",
-  password: "nexpo
+  password: "nexpo"
 
 config :arc,
   # or Arc.Storage.Local
