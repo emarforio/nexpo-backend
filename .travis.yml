@@ -2,16 +2,30 @@ language: elixir
 cache: false
 matrix:
   include:
-    - elixir: 1.8.2
-      otp_release: 22.0.7
+    - node_js: 12.18.2
+      before_install:
+        - nvm install 12.18.2
+        - npm i -g npm
+      install:
+        - npm i s3rver
+        - npm i extend
+      script:
+        - npm run startS3
+    - elixir: 1.10.3
+      otp_release: 22.0.2
       before_install:
         - gem install fakes3
         - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
+        - sudo -u postgres psql -c "CREATE USER nexpo PASSWORD 'nexpo' CREATEDB;"
+        - wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
       install:
         - mix local.rebar --force
         - mix local.hex --force
+        - mix archive.install --force ./phoenix_new.ez
         - mix deps.get
+        - mix ecto.setup
       script:
         - "MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace"
       after_script:
-        - kill $(pgrep -f fakes3)
+        - rm ./phoenix_new.ez
+        - npm run stopS3

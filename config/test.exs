@@ -33,8 +33,8 @@ config :arc,
   virtual_host: true
 
 config :ex_aws,
-  access_key_id: "test",
-  secret_access_key: "test",
+  access_key_id: "S3RVER",
+  secret_access_key: "S3RVER",
   region: "fakes3"
 
 config :ex_aws, :s3,
