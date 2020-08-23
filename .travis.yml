@@ -2,19 +2,16 @@ language: elixir
 cache: false
 matrix:
   include:
-    - node_js: 12.18.2
-      before_install:
-        - nvm install 12.18.2
-        - npm i -g npm
-      install:
-        - npm i s3rver
-        - npm i extend
     - elixir: 1.10.3
       otp_release: 22.0.2
       before_install:
+        - nvm install 12.18.2
+        - npm i -g npm
         - sudo -u postgres psql -c "CREATE USER nexpo PASSWORD 'nexpo' CREATEDB;"
         - wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
       install:
+        - npm i s3rver
+        - npm i extend
         - mix local.rebar --force
         - mix local.hex --force
         - mix archive.install --force ./phoenix_new.ez
