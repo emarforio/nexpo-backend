@@ -62,7 +62,6 @@ defmodule Nexpo.Mixfile do
       {:poison, "~> 2.0"},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
       {:cors_plug, "~> 1.3"},
-      {:plug_static_index_html, "~> 0.1.2"},
       {:ex_json_schema, "~> 0.5.4"},
       {:sentry, "~> 7.0.0"},
       {:comeonin, "~> 4.0"},
@@ -74,9 +73,7 @@ defmodule Nexpo.Mixfile do
       {:arc_ecto, "~> 0.10.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
-      {:hackney, "~> 1.6"},
-      {:httpoison, "~> 0.13"},
-      {:sweet_xml, "~> 0.6"}
+      {:hackney, "~> 1.6"}
     ]
   end
 

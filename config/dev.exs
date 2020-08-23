@@ -6,8 +6,6 @@ if Mix.env() == :dev do
     clear: true
 end
 
-
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -28,7 +26,6 @@ config :nexpo, Nexpo.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/gettext/.*(po)$},
-      ~r{web/views/.*(ex)$},
       ~r{web/templates/.*(eex)$}
     ]
   ]

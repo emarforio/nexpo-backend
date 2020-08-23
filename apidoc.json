@@ -1,6 +1,6 @@
 {
-  "name": "Nexpo",
-  "version": "0.0.1",
+  "name": "Nexpo Backend",
+  "version": "0.0.2",
   "description": "An internal system for ARKAD",
-  "title": "Nexpo - Documentation"
+  "title": "Nexpo Backend - Documentation"
 }

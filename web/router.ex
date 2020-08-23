@@ -7,14 +7,6 @@ defmodule Nexpo.Router do
     use Sentry.Plug
   end
 
-  pipeline :browser do
-    plug(:accepts, ["html"])
-    plug(:fetch_session)
-    plug(:fetch_flash)
-    plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers)
-  end
-
   pipeline :api do
     plug(:accepts, ["json"])
     plug(:fetch_session)
@@ -31,13 +23,6 @@ defmodule Nexpo.Router do
   # Allows us to see mails sent in dev to /sent_emails
   if Mix.env() == :dev do
     forward("/sent_emails", Bamboo.EmailPreviewPlug)
-  end
-
-  scope "/brow", Nexpo do
-    pipe_through([:browser])
-
-    get("/usr", NewStudentController, :new)
-    resources("/abc", NewStudentController)
   end
 
   # Protected endpoints
