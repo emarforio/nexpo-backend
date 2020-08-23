@@ -9,24 +9,18 @@ matrix:
       install:
         - npm i s3rver
         - npm i extend
-      script:
-        - npm run startS3
     - elixir: 1.10.3
       otp_release: 22.0.2
       before_install:
-        - gem install fakes3
-        - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
         - sudo -u postgres psql -c "CREATE USER nexpo PASSWORD 'nexpo' CREATEDB;"
         - wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
       install:
         - mix local.rebar --force
         - mix local.hex --force
         - mix archive.install --force ./phoenix_new.ez
+        - rm ./phoenix_new.ez
         - mix deps.get
         - mix ecto.setup
         - mix run priv/repo/seeds.exs
       script:
-        - "MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace"
-      after_script:
-        - rm ./phoenix_new.ez
-        - npm run stopS3
+        - npm run test-coverage-backend

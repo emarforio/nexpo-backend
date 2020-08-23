@@ -2,7 +2,7 @@
   "scripts": {
     "install-deps": "mix deps.get && npm install",
     "dev-backend": "mix phx.server",
-    "dev": "npm-run-all -p dev-backend",
+    "dev": "npm run dev-backend",
     "testwatch-backend": "mix test.watch",
     "startS3": "s3rver -p 4567 --silent -d $HOME/.s3bucket &",
     "stopS3": "kill $(pgrep -f s3rver)",
@@ -19,7 +19,6 @@
     "doctoc": "^1.4.0",
     "eclint": "^2.8.1",
     "extend": "^3.0.2",
-    "npm-run-all": "^4.1.5",
     "s3rver": "^3.6.1"
   },
   "engines": {
