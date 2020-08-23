@@ -20,3 +20,4 @@ matrix:
         - mix run priv/repo/seeds.exs
       script:
         - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
+        - MIX_ENV=test mix do compile, test --trace
