@@ -20,6 +20,8 @@ matrix:
         - rm ./phoenix_new.ez
         - mix deps.get
         - mix ecto.setup
+        - cd ~
+        - ls -a
         - mix run priv/repo/seeds.exs
       script:
         - npm run test-coverage-backend
