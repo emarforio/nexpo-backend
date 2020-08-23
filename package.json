@@ -15,7 +15,7 @@
     "download-prod-db": "MIX_ENV=dev mix ecto.drop && heroku pg:pull -a arkad-nexpo DATABASE_URL nexpo_dev"
   },
   "devDependencies": {
-    "apidoc": "^0.23.0",
+    "apidoc": "^0.25.0",
     "doctoc": "^1.4.0",
     "eclint": "^2.8.1",
     "extend": "^3.0.2",

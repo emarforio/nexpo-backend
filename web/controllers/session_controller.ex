@@ -1,7 +1,7 @@
 defmodule Nexpo.SessionController do
   use Nexpo.Web, :controller
 
-  alias Nexpo.{Repo, User}
+  alias Nexpo.{User}
 
   @apidoc """
   @api {POST} /login Login

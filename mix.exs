@@ -4,7 +4,7 @@ defmodule Nexpo.Mixfile do
   def project do
     [
       app: :nexpo,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.10.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),

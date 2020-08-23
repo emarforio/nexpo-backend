@@ -2,7 +2,6 @@ defmodule Nexpo.NewStudentController do
   use Nexpo.Web, :controller
 
   alias Nexpo.User
-  alias Nexpo.Student
 
   def new(conn, _params) do
     changeset = User.full_signup_changeset(%User{})
