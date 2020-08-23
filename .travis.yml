@@ -7,21 +7,16 @@ matrix:
       services:
         - postgresql
       before_install:
-        - nvm install 12.18.2
-        - npm i -g npm
+        - gem install fakes3
         - psql -c "CREATE USER nexpo PASSWORD 'nexpo' CREATEDB;"
         - wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
       install:
-        - npm i s3rver
-        - npm i extend
         - mix local.rebar --force
         - mix local.hex --force
         - mix archive.install --force ./phoenix_new.ez
         - rm ./phoenix_new.ez
         - mix deps.get
         - mix ecto.setup
-        - cd ~
-        - ls -a
         - mix run priv/repo/seeds.exs
       script:
-        - npm run test-coverage-backend
+        - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
