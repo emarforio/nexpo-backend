@@ -4,7 +4,7 @@ defmodule Nexpo.Mixfile do
   def project do
     [
       app: :nexpo,
-      version: "0.0.1",
+      version: "0.0.2",
       elixir: "~> 1.10.3",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
@@ -73,7 +73,8 @@ defmodule Nexpo.Mixfile do
       {:arc_ecto, "~> 0.10.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_s3, "~> 2.0"},
-      {:hackney, "~> 1.6"}
+      {:hackney, "~> 1.6"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 
@@ -85,7 +86,7 @@ defmodule Nexpo.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]

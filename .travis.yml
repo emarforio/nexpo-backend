@@ -3,17 +3,21 @@ cache: false
 matrix:
   include:
     - elixir: 1.10.3
-      otp_release: 22.0
+      otp_release: 22.0.2
+      services:
+        - postgresql
       before_install:
         - gem install fakes3
-        - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
+        - psql -c "CREATE USER nexpo PASSWORD 'nexpo' CREATEDB;"
+        - wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
       install:
         - mix local.rebar --force
         - mix local.hex --force
+        - mix archive.install --force ./phoenix_new.ez
+        - rm ./phoenix_new.ez
         - mix deps.get
+        - mix ecto.setup
+        - mix run priv/repo/seeds.exs
       script:
-        - MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace
-      after_success:
-        - bash <(curl -s https://codecov.io/bash)
-      after_script:
-        - kill $(pgrep -f fakes3)
+        - fakes3 -r $HOME/.s3bucket -p 4567 --license 9806002125 &
+        - MIX_ENV=test mix do compile, test --trace

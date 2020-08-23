@@ -310,7 +310,7 @@ defmodule Nexpo.CompanyController do
     case Map.get(params, Atom.to_string(attr)) do
       nil ->
         case attr do
-          :logo_url -> CompanyLogo.delete({file, model})
+          :logo_url -> Nexpo.CompanyLogo.delete({file, model})
         end
 
       _ ->
