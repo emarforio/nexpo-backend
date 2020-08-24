@@ -318,5 +318,24 @@ defmodule Nexpo.CompanyController do
     end
   end
 
+  @apidoc """
+  @api {GET} /company/logo/:id Get company logo
+  @apiGroup Company
+  @apiParam {Number} id ID of the company
+  @apiSuccessExample {image/png} Success
+    HTTP 200 Ok
+    image
+
+  @apiUse NotFoundError
+  @apiUse InternalServerError
+  """
+  def get_logo(conn, %{"id" => id}, _user, _claims) do
+    path = "uploads/companies/#{id}/logo/logo.png"
+
+    conn
+    |> put_resp_content_type("image/png")
+    |> send_file(200, path)
+  end
+
   @apidoc
 end

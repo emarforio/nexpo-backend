@@ -112,6 +112,16 @@ defmodule Nexpo.StudentController do
     end
   end
 
+  def get_cv(conn, %{"lang" => lang}, user, _claims) do
+    student = Repo.get_by!(Student, %{user_id: user.id})
+
+    path = "uploads/students/#{student.id}/cv/#{lang}/cv_#{lang}.pdf"
+
+    conn
+    |> put_resp_content_type("application/pdf")
+    |> send_file(200, path)
+  end
+
   def delete(conn, %{"id" => id}, _user, _claims) do
     student = Repo.get!(Student, id)
 

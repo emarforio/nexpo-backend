@@ -329,5 +329,13 @@ defmodule Nexpo.UserController do
     end
   end
 
+  def get_picture(conn, %{}, user, _claims) do
+    path = "uploads/users/#{user.id}/image/profile.png"
+
+    conn
+    |> put_resp_content_type("image/png")
+    |> send_file(200, path)
+  end
+
   @apidoc
 end
