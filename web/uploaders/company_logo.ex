@@ -14,7 +14,7 @@ defmodule Nexpo.CompanyLogo do
 
   # Whitelist file extensions:
   def validate({file, _}) do
-    ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
+    ~w(.png) |> Enum.member?(Path.extname(file.file_name))
   end
 
   # Define a thumbnail transformation:
@@ -24,9 +24,7 @@ defmodule Nexpo.CompanyLogo do
 
   # We use this so other file name can't be guessed
   def filename(version, {_, scope}) do
-    :crypto.hash(:sha256, "a_very_long_string_#{scope.id}_#{version}")
-    |> Base.encode16()
-    |> String.downcase()
+    "logo"
   end
 
   # Override the storage directory:
