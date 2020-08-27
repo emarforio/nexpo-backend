@@ -417,3 +417,77 @@ alias Nexpo.Blip
 Repo.insert(%Blip{comment: "Cool boi", rating: 3, company_id: 1, student_id: 1})
 Repo.insert(%Blip{comment: "Cool gril", rating: 1, company_id: 1, student_id: 2})
 Repo.insert(%Blip{comment: "who dis?", rating: 4, company_id: 1, student_id: 3})
+
+# Create some events
+alias Nexpo.Event
+
+Repo.insert!(%Event{
+  name: "Bounce",
+  date: "Nov 3rd - Sunday",
+  start: "15:10",
+  end: "17:30",
+  location: "Outside Kårhuset, bus to Malmö"
+})
+
+Repo.insert!(%Event{
+  name: "The digital shift - how will you be affected?",
+  date: "Nov 4rd - Monday",
+  start: "17:15",
+  end: "18:45",
+  location: "Kårhuset: Auditorium"
+})
+
+Repo.insert!(%Event{
+  name: "Stand up with Hasse Brontén",
+  date: "Nov 5rd - Tuesday",
+  start: "17:15",
+  end: "18:00",
+  location: "Kårhuset: Auditorium"
+})
+
+Repo.insert!(%Event{
+  name: "Personal development and a positive mindset",
+  date: "Nov 6rd - Wednesday",
+  start: "17:15",
+  end: "18:45",
+  location: "Kårhuset: Auditorium"
+})
+
+# Create some event_infos
+alias Nexpo.EventInfo
+
+Repo.insert!(%EventInfo{
+  description: "Placeholder",
+  tickets: 20
+})
+
+Repo.insert!(%EventInfo{
+  description: "Placeholder",
+  host: "Nicholas Fernholm",
+  language: "English",
+  tickets: 20
+})
+
+Repo.insert!(%EventInfo{
+  description: "Placeholder",
+  host: "Hasse Brontén",
+  language: "Swedish",
+  tickets: 20
+})
+
+Repo.insert!(%EventInfo{
+  description: "Placeholder",
+  host: "Pamela Von Sabljar",
+  language: "Swedish",
+  tickets: 20
+})
+
+event_info1 = Repo.get_by(EventInfo, %{id: 1})
+event_info2 = Repo.get_by(EventInfo, %{id: 2})
+event_info3 = Repo.get_by(EventInfo, %{id: 3})
+event_info4 = Repo.get_by(EventInfo, %{id: 4})
+
+EventInfo.build_assoc!(event_info1, 1)
+EventInfo.build_assoc!(event_info2, 2)
+EventInfo.build_assoc!(event_info3, 3)
+EventInfo.build_assoc!(event_info4, 4)

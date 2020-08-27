@@ -51,7 +51,7 @@ defmodule Nexpo.Router do
 
     resources("/users", UserController, only: [:index, :show, :update, :delete])
     resources("/roles", RoleController)
-    get("/statistics", StatisticsController, :index)
+    resources("/statistics", StatisticsController, only: [:index])
 
     resources "/students", StudentController do
       # resources("/student_session_applications", StudentSessionApplicationController)
@@ -92,6 +92,9 @@ defmodule Nexpo.Router do
     pipe_through(:api)
 
     post("/login", SessionController, :create)
+
+    resources("/events", EventController, only: [:index])
+    get("/event/:id", EventController, :get_event)
 
     post("/initial_signup", SignupController, :create)
     get("/initial_signup/:key", SignupController, :get_current_signup)
