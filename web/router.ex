@@ -83,6 +83,8 @@ defmodule Nexpo.Router do
       only: [:create, :update, :show, :delete, :index]
     )
 
+    delete("/event_ticket/:id", EventController, :remove_ticket)
+
     # TODO implement
     # get("/me/company/reps", BlipController, :get_reps)
   end
