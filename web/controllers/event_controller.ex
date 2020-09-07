@@ -1,5 +1,7 @@
 defmodule Nexpo.EventController do
   use Nexpo.Web, :controller
+  # user kommer från Guardian
+  use Guardian.Phoenix.Controller
 
   alias Nexpo.Event
   alias Nexpo.EventInfo
@@ -18,8 +20,6 @@ defmodule Nexpo.EventController do
         send_resp(conn, :not_found, "")
 
       event ->
-        event = event
-
         case Repo.get_by(EventInfo, event_id: event_id) do
           nil ->
             send_resp(conn, :not_found, "")
@@ -30,56 +30,94 @@ defmodule Nexpo.EventController do
     end
   end
 
-  """
-  def create(conn, %{"id" => event_id}, user) do
-    case Repo.get!(Event, event_id) do
-      nil ->
-        send_resp(conn, :not_found, "")
-
-      event ->
-        event = event
-
-        case Repo.get_by(Student, user_id: user.id) do
-          nil ->
-            send_resp(conn, :not_found, "")
-        
-          student ->
-            student = student
-
-            Repo.insert!(%EventTicket{
-              student_id: user.id, 
-              event_id: event_id
-            })
-        end
-        events = Repo.all(Event)
-        render(conn, "index.json", events: events)
-    end
-  
-  end
-  """
-
-  def remove_ticket(conn, %{"id" => event_id}, user, _claims) do
-    #student = Repo.get_by!(Student, %{user_id: user.id})
-
-    ticket =
-      EventTicket
-      |> where(event_id: ^event_id)
-      |> where(student_id: ^user.id)
-      |> Repo.one
-    
-    case ticket do
+  def get_tickets(conn, %{}, user, _claims) do
+    case Repo.get_by(Student, user_id: user.id) do
       nil ->
         conn
-        |> put_status(404)
-        |> render(Nexpo.ErrorView, "404.json")
-      
-      ticket ->
-        case Repo.delete!(ticket) do
-          {:ok, struct} -> 
-            send_resp(conn, :no_content, "")
-    
-          {:error, changeset} ->
-            send_resp(conn, :not_found, "")
+        |> put_status(401)
+        |> render(Nexpo.ErrorView, "401.json")
+
+      student ->
+        tickets =
+          Repo.all(
+            from(event_ticket in EventTicket,
+              where: event_ticket.student_id == ^student.id
+            )
+          )
+
+        IO.inspect(tickets)
+
+        render(conn, "event_tickets.json", tickets: tickets)
+      end
+  end
+
+  def create_ticket(conn, %{"event_id" => event_id}, user, _claims) do
+    case Repo.get_by(Student, user_id: user.id) do
+      nil ->
+        conn
+        |> put_status(401)
+        |> render(Nexpo.ErrorView, "401.json")
+
+      student ->
+        case Repo.get!(Event, event_id) do
+          nil ->
+            conn
+            |> put_status(404)
+            |> render(Nexpo.ErrorView, "404.json")
+
+          event ->
+            event_ticket = %EventTicket{
+              student_id: student.id,
+              event_id: event.id,
+              ticket_code: Comeonin.Bcrypt.hashpwsalt(user.email <> Integer.to_string(event_id))
+            }
+
+            case Repo.insert(EventTicket.changeset(event_ticket)) do
+              {:ok, struct} ->
+                send_resp(conn, :created, "")
+
+              {:error, changeset} ->
+                conn
+                |> put_status(:unprocessable_entity)
+                |> render(Nexpo.ChangesetView, "error.json", changeset: changeset)
+            end
+        end
+    end
+  end
+
+  def remove_ticket(conn, %{"id" => event_id}, user, _claims) do
+    # hämta student med user id
+    case Repo.get_by(Student, user_id: user.id) do
+      nil ->
+        conn
+        |> put_status(400)
+        |> render(Nexpo.ErrorView, "400.json")
+
+      student ->
+        ticket =
+          EventTicket
+          |> where(event_id: ^event_id)
+          |> where(student_id: ^student.id)
+          |> Repo.one
+
+        case ticket do
+          nil ->
+            conn
+            |> put_status(404)
+            |> render(Nexpo.ErrorView, "404.json")
+
+          ticket ->
+
+            # ni använde "delete!" vilket har annat return värde, så case failade
+            case Repo.delete(ticket) do
+              {:ok, struct} ->
+                send_resp(conn, :no_content, "")
+
+              {:error, changeset} ->
+                conn
+                |> put_status(404)
+                |> render(Nexpo.ErrorView, "404.json")
+            end
         end
     end
   end

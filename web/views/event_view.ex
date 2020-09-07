@@ -37,4 +37,16 @@ defmodule Nexpo.EventView do
 
     Nexpo.Support.View.render_object(event, base)
   end
+
+  def render("event_ticket.json", %{event: event}) do
+    base = [
+      :event_id,
+      :ticket_code
+    ]
+    Nexpo.Support.View.render_object(event, base)
+  end
+
+  def render("event_tickets.json", %{tickets: tickets}) do
+    %{data: render_many(tickets, Nexpo.EventView, "event_ticket.json")}
+  end
 end

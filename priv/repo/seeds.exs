@@ -495,9 +495,8 @@ EventInfo.build_assoc!(event_info4, 4)
 # Create some event tickets
 alias Nexpo.EventTicket
 
-event1 = Repo.get_by(Event, %{id: 1})
-
 Repo.insert!(%EventTicket{
-  student_id: student_user1.id,
-  event_id: event1.id
+  student_id: 1,
+  event_id: 1,
+  ticket_code: Comeonin.Bcrypt.hashpwsalt(student_user1.email <> Integer.to_string(1))
 })

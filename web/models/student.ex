@@ -21,6 +21,10 @@ defmodule Nexpo.Student do
       on_delete: :nilify_all
     )
 
+    has_many(:event_tickets, Nexpo.EventTicket,
+      on_delete: :delete_all
+    )
+
     many_to_many(:interests, Nexpo.Interest,
       join_through: "student_interests",
       on_delete: :delete_all,
