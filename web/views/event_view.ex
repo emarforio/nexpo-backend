@@ -19,7 +19,8 @@ defmodule Nexpo.EventView do
       :location,
       :host,
       :description,
-      :language
+      :language,
+      :tickets
     ]
 
     Nexpo.Support.View.render_object(event, base)

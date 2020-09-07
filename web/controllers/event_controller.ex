@@ -8,24 +8,38 @@ defmodule Nexpo.EventController do
   alias Nexpo.EventTicket
   alias Nexpo.Student
 
-  def index(conn, %{}) do
+  def index(conn, %{}, _user, _claims) do
     events = Repo.all(Event)
 
     render(conn, "index.json", events: events)
   end
 
-  def get_event(conn, %{"id" => event_id}) do
+  def get_event(conn, %{"id" => event_id}, _user, _claims) do
     case Repo.get!(Event, event_id) do
       nil ->
-        send_resp(conn, :not_found, "")
+        conn
+        |> put_status(404)
+        |> render(Nexpo.ErrorView, "404.json")
 
       event ->
         case Repo.get_by(EventInfo, event_id: event_id) do
           nil ->
-            send_resp(conn, :not_found, "")
+            conn
+            |> put_status(404)
+            |> render(Nexpo.ErrorView, "404.json")
 
           eventInfo ->
-            render(conn, "show.json", event: Map.merge(eventInfo, event))
+            tickets =
+              Repo.all(
+                from(event_ticket in EventTicket,
+                  where: event_ticket.event_id == ^event_id
+                )
+              )
+
+            updated_event_info = eventInfo |> struct(%{tickets: Map.get(eventInfo, :tickets) - Enum.count(tickets)})
+
+            IO.inspect(updated_event_info)
+            render(conn, "show.json", event: Map.merge(updated_event_info, event))
         end
     end
   end
@@ -44,8 +58,6 @@ defmodule Nexpo.EventController do
               where: event_ticket.student_id == ^student.id
             )
           )
-
-        IO.inspect(tickets)
 
         render(conn, "event_tickets.json", tickets: tickets)
       end
@@ -66,20 +78,41 @@ defmodule Nexpo.EventController do
             |> render(Nexpo.ErrorView, "404.json")
 
           event ->
-            event_ticket = %EventTicket{
-              student_id: student.id,
-              event_id: event.id,
-              ticket_code: Comeonin.Bcrypt.hashpwsalt(user.email <> Integer.to_string(event_id))
-            }
-
-            case Repo.insert(EventTicket.changeset(event_ticket)) do
-              {:ok, struct} ->
-                send_resp(conn, :created, "")
-
-              {:error, changeset} ->
+            case Repo.get_by(EventInfo, event_id: event_id) do
+              nil ->
                 conn
-                |> put_status(:unprocessable_entity)
-                |> render(Nexpo.ChangesetView, "error.json", changeset: changeset)
+                |> put_status(404)
+                |> render(Nexpo.ErrorView, "404.json")
+
+              eventInfo ->
+                tickets =
+                  Repo.all(
+                    from(event_ticket in EventTicket,
+                      where: event_ticket.event_id == ^event_id
+                    )
+                  )
+
+                  if Map.get(eventInfo, :tickets) - Enum.count(tickets) > 0 do
+                    event_ticket = %EventTicket{
+                      student_id: student.id,
+                      event_id: event.id,
+                      ticket_code: Comeonin.Bcrypt.hashpwsalt(user.email <> Integer.to_string(event_id))
+                    }
+
+                    case Repo.insert(EventTicket.changeset(event_ticket)) do
+                      {:ok, struct} ->
+                        send_resp(conn, :created, "")
+
+                      {:error, changeset} ->
+                        conn
+                        |> put_status(:unprocessable_entity)
+                        |> render(Nexpo.ChangesetView, "error.json", changeset: changeset)
+                    end
+                  else
+                    conn
+                    |> put_status(401)
+                    |> render(Nexpo.ErrorView, "401.json")
+                  end
             end
         end
     end
