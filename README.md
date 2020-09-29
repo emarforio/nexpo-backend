@@ -65,11 +65,7 @@ The system requires these programs to be installed. The project intends to alway
 
 
 # Technical Description
-Nexpo consists of two parts
-- Phoenix backend
-- [React frontend](priv/react_app)
 
-## Backend
 The backend is configured with [Phoenix Framework](https://phoenixframework.org/). Phoenix Framework has a fantastic [User Guide](https://hexdocs.pm/phoenix/overview.html), there is a full [Phoenix Project Example](https://github.com/VictorWinberg/elixir-krusty) and there exists two nice issues for learning [Issue 81 - Posts](https://github.com/careerfairsystems/nexpo/issues/81) and [Issue 82 - Post Comments](https://github.com/careerfairsystems/nexpo/issues/82).
 
 #### Mailing
