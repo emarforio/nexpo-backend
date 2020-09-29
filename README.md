@@ -4,7 +4,7 @@
 # Welcome
 Welcome to Nexpo - Next generation Expo!
 
-This project aims to to supply [ARKAD](https://arkad.tlth.se) with an inhouse project management system
+This project aims to to supply [ARKAD](https://arkad.tlth.se) with an inhouse project management system.
 
 # Table of Contents
 <!-- To update table of contents: npm run update-toc-readme -->
@@ -100,7 +100,6 @@ The folder structure follows default Phoenix structure
 |
 |-- priv/
 |   |-- gettext/
-|   |-- react_app/                    # Frontend
 |   |-- repo/                         # Database structure
 |       |-- migrations                # Database migrations
 |       |   |-- MIGRATION_NAME.exs    # Database migration
@@ -169,76 +168,6 @@ The folder structure follows default Phoenix structure
 ```
 </details>
 
-## Frontend
-The frontend is configured with [Create React App](https://github.com/facebookincubator/create-react-app). It handles all build configuration which makes our lifes much easier. Do not eject from the default configuration. Create React App has a fantastic [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
-
-### Folder structure frontend
-<details>
- <summary>Structure</summary>
-
-```
-./priv/react_app/src/
-|-- API/                      # Contains everything related to API
-|   |-- index.js              # Exposes entire API as a module
-|   |
-|   |-- NAME.js               # Defines API for interacting with NAME
-|
-|-- Components/               # Composable React components
-|   |
-|   |-- NAME/                 # Defines a component called NAME
-|       |-- index.js          # Responsible for connecting component with state
-|       |-- NAME.js           # Defines React component
-|       |-- NAME.test.js      # Tests for component
-|
-|-- Screens/                  # React components that are screens
-|   |
-|   |-- NAME/                 # Defines a screen called NAME
-|       |-- index.js          # Responsible for connecting component with state
-|       |-- NAME.js           # Defines React component
-|       |-- NAME.test.js      # Tests for component
-|
-|-- Store/                    # Everything related to Store
-|   |-- index.js              # Exposes entire store as a module
-|   |
-|   |-- actions/              # Contains all action creators
-|   |   |-- index.js          # Exposes all action creators as module
-|   |   |
-|   |   |-- NAME/             # Contains action creators for NAME
-|   |       |-- index.js      # Exposes all actions creators as a module
-|   |       |-- NAME.js       # Defines all actions creators for NAME
-|   |       |-- NAME.test.js  # Tests for actions creators
-|   |
-|   |-- reducers/             # Contains all reducers
-|   |   |-- index.js          # Exposes a single combined reducer
-|   |   |
-|   |   |-- NAME/             # Contains one reducer
-|   |       |-- index.js      # Exposes reducer
-|   |       |-- NAME.js       # Defines the reducer
-|   |       |-- NAME.test.js  # Tests for reducer
-|   |
-|   |-- selectors/            # Contains all selector creators
-|   |   |-- index.js          # Exposes all selector creators as module
-|   |   |
-|   |   |-- NAME/             # Contains selector creators for NAME
-|   |       |-- index.js      # Exposes all selectors creators as a module
-|   |       |-- NAME.js       # Defines all selectors creators for NAME
-|   |       |-- NAME.test.js  # Tests for selectors creators
-|   |
-|   |-- ActionTypes.js        # Defines all action types
-|
-|-- TestHelper/               # Defines helpers that are helpful in tests
-|   |-- index.js              # Exposes all helpers as a module
-|   |
-|   |-- NAME.js               # Defines a single helper
-|
-|-- Util/                     # Miscellaneous utility helpers
-|   |-- NAME.js               # Defines a single helper
-|
-|-- .gitignore
-|-- package-lock.json
-|-- package.json
-|-- README.md
-```
 </details>
 
 # Development
@@ -298,16 +227,8 @@ These are some commands to help you run all tests
 | Command                      | Description                     |
 |------------------------------|---------------------------------|
 | `npm run test`               | Runs all tests                  |
-| `npm run test-frontend`      | Runs all frontend tests         |
-| `npm run test-backend`       | Runs all backend tests          |
 | `npm run testwatch-backend`  | Starts testwatcher for backend  |
-| `npm run testwatch-frontend` | Starts testwatcher for frontend |
 
-#### Writing tests for frontend
-- All tests should be beside what is it testing. If there is a component named ```Component```, its test should be beside it and named ```Component.test.js```
-- The frontend is configured with [jest](https://facebook.github.io/jest/) as its testrunner.
-- For react tests, the project is configured with [enzyme](https://github.com/airbnb/enzyme). This makes it easy to unit test a component
-- There are test helpers in [/priv/react_app/src/TestHelper](/priv/react_app/src/TestHelper)
 
 #### Writing tests for backend
 All tests should be in the [/test](/test) folder
@@ -328,9 +249,6 @@ end
 ```
 
 ## Helpful things
-
-### Installing a dependancy in frontend
-The frontend has its own package.json, it is therefore important to install the dependency into the correct package.json. Make sure you working directory is [priv/react_app](priv/react_app) before installing dependency.
 
 ### Create a non-protected endpoint
 1. Do not pipe it through api-auth in router
@@ -355,8 +273,6 @@ end
 | Command                | Description                |
 |------------------------|----------------------------|
 | `npm run dev`          | Start frontend and backend |
-| `npm run dev-backend`  | Start the backend          |
-| `npm run dev-frontend` | Start the frontend         |
 
 - Backend server is run on localhost:4000
   - Visit [localhost:4000/sent_emails](http://localhost:4000/sent_emails) to see emails sent in development
@@ -402,3 +318,4 @@ Deployment is automatic from master branch. To deploy, you need only merge code 
 - [Martin Johansson](mailto:martin.johansson1993@gmail.com) (Developer 2018)
 - [Viktor Claesson](mailto:claesson.viktor@gmail.com) (Developer 2018)
 - [Viktor Claesson](mailto:claesson.viktor@gmail.com) (Internal Systems Manager 2019)
+- [Mustafa Albayati](mailto:albayati96@gmail.com) (Head Of IT 2020)
