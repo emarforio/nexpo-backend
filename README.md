@@ -33,6 +33,7 @@ This project aims to to supply [ARKAD](https://arkad.tlth.se) with an inhouse pr
   - [Dev servers](#dev-servers)
   - [Helpful scripts](#helpful-scripts)
   - [Documentation](#documentation)
+  - [Setup your Editor](#setup-your-editor)
 - [Deployment](#deployment)
   - [Heroku](#heroku)
 - [Who do I contact?](#who-do-i-contact)
@@ -285,6 +286,22 @@ Documentation is changed in the code via special tags. More detailed information
 
 See documentation generation instructions under [Helpful scripts](#helpful-scripts).
 Documentation can be found in docs/ directory
+
+
+## Setup your Editor
+### VS Code
+* Install [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+* Install [Eslint](https://github.com/Microsoft/vscode-eslint)
+* Install [ElixirLS](https://marketplace.visualstudio.com/items?itemName=JakeBecker.elixir-ls)
+
+### Atom
+* Install [Prettier](https://atom.io/packages/prettier-atom)
+* Install [Eslint](https://atom.io/packages/linter-eslint)
+* Install [Elixir](https://atom.io/packages/atom-elixir)
+
+### Update your settings
+* Enable "Set Editor Format On Save"
+* Enable "Prettier Eslint Integration"
 
 # Deployment
 The system is hosted at [arkad-nexpo.herokuapp.com](https://arkad-nexpo.herokuapp.com)
