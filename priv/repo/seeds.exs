@@ -491,3 +491,121 @@ EventInfo.build_assoc!(event_info1, 1)
 EventInfo.build_assoc!(event_info2, 2)
 EventInfo.build_assoc!(event_info3, 3)
 EventInfo.build_assoc!(event_info4, 4)
+
+# Create some coordinator_positions
+alias Nexpo.CoordinatorPosition
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Business & Relations",
+  position: "Student Sessions Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Business & Relations",
+  position: "Career Room Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Logistics Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Shuttle Service Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Lunch Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Lounge Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Interior Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Premises Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Fair & Logistics",
+  position: "Power Supply & Network Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Info Desk Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Market Research Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Web Page Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "PR Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Art Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Photo Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Marketing & Public Relations",
+  position: "Film Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Event & Recruitment",
+  position: "Event Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Event & Recruitment",
+  position: "Recruitment & Internal Events Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Event & Recruitment",
+  position: "Banquet Entertainment Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Event & Recruitment",
+  position: "Banquet Decor Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "Event & Recruitment",
+  position: "Banquet Technique Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "IT Group",
+  position: "UX Coordinator",
+})
+
+Repo.insert!(%CoordinatorPosition{
+  type: "IT Group",
+  position: "IT Developer",
+})

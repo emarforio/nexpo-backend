@@ -103,5 +103,7 @@ defmodule Nexpo.Router do
     post("/password/forgot", UserController, :forgot_password_init)
     get("/password/forgot/:key", UserController, :forgot_password_verification)
     post("/password/new/:key", UserController, :replace_forgotten_password)
+
+    resources("/coordinator_positions", CoordinatorPositionController, only: [:index])
   end
 end
