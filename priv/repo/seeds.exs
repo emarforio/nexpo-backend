@@ -114,14 +114,30 @@ Repo.insert!(%User{
 })
 
 admin_user = Repo.get_by(User, %{email: "admin@test.com"}) |> Repo.preload([:roles, :student])
-student_user1 = Repo.get_by(User, %{email: "student1@test.com"}) |> Repo.preload([:roles, :student])
-student_user2 = Repo.get_by(User, %{email: "student2@test.com"}) |> Repo.preload([:roles, :student])
-student_user3 = Repo.get_by(User, %{email: "student3@test.com"}) |> Repo.preload([:roles, :student])
-company_user1 = Repo.get_by(User, %{email: "company1@test.com"}) |> Repo.preload([:representative])
-company_user2 = Repo.get_by(User, %{email: "company2@test.com"}) |> Repo.preload([:representative])
-company_user3 = Repo.get_by(User, %{email: "company3@test.com"}) |> Repo.preload([:representative])
-company_user4 = Repo.get_by(User, %{email: "company4@test.com"}) |> Repo.preload([:representative])
-company_user5 = Repo.get_by(User, %{email: "company5@test.com"}) |> Repo.preload([:representative])
+
+student_user1 =
+  Repo.get_by(User, %{email: "student1@test.com"}) |> Repo.preload([:roles, :student])
+
+student_user2 =
+  Repo.get_by(User, %{email: "student2@test.com"}) |> Repo.preload([:roles, :student])
+
+student_user3 =
+  Repo.get_by(User, %{email: "student3@test.com"}) |> Repo.preload([:roles, :student])
+
+company_user1 =
+  Repo.get_by(User, %{email: "company1@test.com"}) |> Repo.preload([:representative])
+
+company_user2 =
+  Repo.get_by(User, %{email: "company2@test.com"}) |> Repo.preload([:representative])
+
+company_user3 =
+  Repo.get_by(User, %{email: "company3@test.com"}) |> Repo.preload([:representative])
+
+company_user4 =
+  Repo.get_by(User, %{email: "company4@test.com"}) |> Repo.preload([:representative])
+
+company_user5 =
+  Repo.get_by(User, %{email: "company5@test.com"}) |> Repo.preload([:representative])
 
 # Create some roles
 alias Nexpo.Role
@@ -336,6 +352,20 @@ Repo.insert!(%StudentSessionApplication{
   company_id: 3,
   score: 4
 })
+
+# Create a session
+alias Nexpo.StudentSession
+
+# Student approves the timeslot provided by the representative
+changeset =
+  StudentSession.changeset(%StudentSession{}, %{
+    student_id: 1,
+    company_id: 1,
+    student_session_time_slot_id: 1,
+    student_session_status: 1
+  })
+
+Repo.insert(changeset)
 
 # Create some mailtemplates
 alias Nexpo.Mailtemplate
