@@ -33,7 +33,7 @@ alias Nexpo.Repo
 alias Nexpo.User
 
 Repo.insert!(%User{
-  email: "admin@test",
+  email: "admin@test.com",
   first_name: "Admin",
   last_name: "Developer",
   phone_number: "0707112233",
@@ -42,7 +42,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "student1@test",
+  email: "student1@test.com",
   first_name: "Alfa",
   last_name: "Student",
   phone_number: "0708334455",
@@ -51,7 +51,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "student2@test",
+  email: "student2@test.com",
   first_name: "Bravo",
   last_name: "Student",
   phone_number: "0708334455",
@@ -60,7 +60,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "student3@test",
+  email: "student3@test.com",
   first_name: "Charlie",
   last_name: "Student",
   phone_number: "0708334455",
@@ -69,7 +69,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "company1@test",
+  email: "company1@test.com",
   first_name: "Alfa",
   last_name: "Company",
   phone_number: "555123456",
@@ -78,7 +78,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "company2@test",
+  email: "company2@test.com",
   first_name: "Bravo",
   last_name: "Company",
   phone_number: "555123456",
@@ -87,7 +87,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "company3@test",
+  email: "company3@test.com",
   first_name: "Charlie",
   last_name: "Company",
   phone_number: "555123456",
@@ -96,7 +96,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "company4@test",
+  email: "company4@test.com",
   first_name: "Delta",
   last_name: "Company",
   phone_number: "555123456",
@@ -105,7 +105,7 @@ Repo.insert!(%User{
 })
 
 Repo.insert!(%User{
-  email: "company5@test",
+  email: "company5@test.com",
   first_name: "Echo",
   last_name: "Company",
   phone_number: "555123456",
@@ -113,15 +113,15 @@ Repo.insert!(%User{
   hashed_password: Comeonin.Bcrypt.hashpwsalt("password")
 })
 
-admin_user = Repo.get_by(User, %{email: "admin@test"}) |> Repo.preload([:roles, :student])
-student_user1 = Repo.get_by(User, %{email: "student1@test"}) |> Repo.preload([:roles, :student])
-student_user2 = Repo.get_by(User, %{email: "student2@test"}) |> Repo.preload([:roles, :student])
-student_user3 = Repo.get_by(User, %{email: "student3@test"}) |> Repo.preload([:roles, :student])
-company_user1 = Repo.get_by(User, %{email: "company1@test"}) |> Repo.preload([:representative])
-company_user2 = Repo.get_by(User, %{email: "company2@test"}) |> Repo.preload([:representative])
-company_user3 = Repo.get_by(User, %{email: "company3@test"}) |> Repo.preload([:representative])
-company_user4 = Repo.get_by(User, %{email: "company4@test"}) |> Repo.preload([:representative])
-company_user5 = Repo.get_by(User, %{email: "company5@test"}) |> Repo.preload([:representative])
+admin_user = Repo.get_by(User, %{email: "admin@test.com"}) |> Repo.preload([:roles, :student])
+student_user1 = Repo.get_by(User, %{email: "student1@test.com"}) |> Repo.preload([:roles, :student])
+student_user2 = Repo.get_by(User, %{email: "student2@test.com"}) |> Repo.preload([:roles, :student])
+student_user3 = Repo.get_by(User, %{email: "student3@test.com"}) |> Repo.preload([:roles, :student])
+company_user1 = Repo.get_by(User, %{email: "company1@test.com"}) |> Repo.preload([:representative])
+company_user2 = Repo.get_by(User, %{email: "company2@test.com"}) |> Repo.preload([:representative])
+company_user3 = Repo.get_by(User, %{email: "company3@test.com"}) |> Repo.preload([:representative])
+company_user4 = Repo.get_by(User, %{email: "company4@test.com"}) |> Repo.preload([:representative])
+company_user5 = Repo.get_by(User, %{email: "company5@test.com"}) |> Repo.preload([:representative])
 
 # Create some roles
 alias Nexpo.Role
