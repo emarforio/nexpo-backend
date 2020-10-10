@@ -133,7 +133,7 @@ defmodule Nexpo.UserController do
           student_sessions: [:company, :student_session_time_slot],
           student_session_applications: :company
         ],
-        representative: [:company]
+        representative: [company: [student_sessions: [:student, :student_session_time_slot]]]
       ])
 
     conn |> put_status(200) |> render("show.json", user: user)

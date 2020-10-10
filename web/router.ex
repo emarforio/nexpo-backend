@@ -76,6 +76,7 @@ defmodule Nexpo.Router do
     resources("/student_sessions", StudentSessionController, only: [:create, :delete])
     patch("/student_sessions", StudentSessionController, :create_bulk)
     delete("/student_sessions", StudentSessionController, :delete_bulk)
+    get("/student_sessions", StudentSessionController, :show)
     get("/student_session_info", StudentSessionController, :show_all)
     get("/student_session_reserves", StudentSessionController, :show_reserves)
 
