@@ -100,6 +100,7 @@ defmodule Nexpo.Router do
 
     resources("/events", EventController, only: [:index])
     get("/event/:id", EventController, :get_event)
+    get("/event2/:id", EventController, :get_event2)
 
     post("/initial_signup", SignupController, :create)
     get("/initial_signup/:key", SignupController, :get_current_signup)
