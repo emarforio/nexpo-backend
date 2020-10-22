@@ -5,6 +5,7 @@ defmodule Nexpo.EventTicket do
   schema "event_tickets" do
 
     field(:ticket_code, :string)
+    field(:photo, :boolean)
     belongs_to(:student, Nexpo.Student, foreign_key: :student_id)
     belongs_to(:event, Nexpo.Event, foreign_key: :event_id)
 
