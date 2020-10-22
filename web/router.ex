@@ -85,7 +85,9 @@ defmodule Nexpo.Router do
     )
 
     delete("/event_ticket/:id", EventController, :remove_ticket)
+    delete("/event_ticket2/:id", EventController, :remove_ticket2)
     put("/event_ticket", EventController, :create_ticket)
+    put("/event_ticket2", EventController, :create_ticket2)
     get("/event_tickets", EventController, :get_tickets)
 
     # TODO implement
