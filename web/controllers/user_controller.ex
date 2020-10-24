@@ -28,7 +28,13 @@ defmodule Nexpo.UserController do
       Repo.all(User)
       |> Repo.preload([
         :roles,
-        student: [:interests, :programme, :student_sessions, :student_session_applications],
+        student: [
+          :interests,
+          :programme,
+          :student_sessions,
+          :student_session_applications,
+          :event_tickets
+        ],
         representative: [:company]
       ])
 
@@ -40,7 +46,13 @@ defmodule Nexpo.UserController do
       Repo.get!(User, id)
       |> Repo.preload([
         :roles,
-        student: [:interests, :programme, :student_sessions, :student_session_applications],
+        student: [
+          :interests,
+          :programme,
+          :student_sessions,
+          :student_session_applications,
+          :event_tickets
+        ],
         representative: [:company]
       ])
 
@@ -52,7 +64,13 @@ defmodule Nexpo.UserController do
       Repo.get!(User, id)
       |> Repo.preload([
         :roles,
-        student: [:interests, :programme, :student_sessions, :student_session_applications]
+        student: [
+          :interests,
+          :programme,
+          :student_sessions,
+          :student_session_applications,
+          :event_tickets
+        ]
       ])
 
     changeset = User.changeset(user, user_params)
@@ -130,6 +148,7 @@ defmodule Nexpo.UserController do
         student: [
           :programme,
           :interests,
+          :event_tickets,
           student_sessions: [:company, :student_session_time_slot],
           student_session_applications: :company
         ],

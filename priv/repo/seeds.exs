@@ -451,71 +451,74 @@ Repo.insert(%Blip{comment: "who dis?", rating: 4, company_id: 1, student_id: 3})
 # Create some events
 alias Nexpo.Event
 
-Repo.insert!(%Event{
-  name: "Bounce",
-  date: "Nov 3rd - Sunday",
-  start: "15:10",
-  end: "17:30",
-  location: "Outside Kårhuset, bus to Malmö"
-})
+event1 =
+  Repo.insert!(%Event{
+    name: "Bounce",
+    date: "Nov 3rd - Sunday",
+    start: "15:10",
+    end: "17:30",
+    location: "Outside Kårhuset, bus to Malmö"
+  })
 
-Repo.insert!(%Event{
-  name: "The digital shift - how will you be affected?",
-  date: "Nov 4rd - Monday",
-  start: "17:15",
-  end: "18:45",
-  location: "Kårhuset: Auditorium"
-})
+event2 =
+  Repo.insert!(%Event{
+    name: "The digital shift - how will you be affected?",
+    date: "Nov 4rd - Monday",
+    start: "17:15",
+    end: "18:45",
+    location: "Kårhuset: Auditorium"
+  })
 
-Repo.insert!(%Event{
-  name: "Stand up with Hasse Brontén",
-  date: "Nov 5rd - Tuesday",
-  start: "17:15",
-  end: "18:00",
-  location: "Kårhuset: Auditorium"
-})
+event3 =
+  Repo.insert!(%Event{
+    name: "Stand up with Hasse Brontén",
+    date: "Nov 5rd - Tuesday",
+    start: "17:15",
+    end: "18:00",
+    location: "Kårhuset: Auditorium"
+  })
 
-Repo.insert!(%Event{
-  name: "Personal development and a positive mindset",
-  date: "Nov 6rd - Wednesday",
-  start: "17:15",
-  end: "18:45",
-  location: "Kårhuset: Auditorium"
-})
+event4 =
+  Repo.insert!(%Event{
+    name: "Personal development and a positive mindset",
+    date: "Nov 6rd - Wednesday",
+    start: "17:15",
+    end: "18:45",
+    location: "Kårhuset: Auditorium"
+  })
 
 # Create some event_infos
 alias Nexpo.EventInfo
 
-Repo.insert!(%EventInfo{
-  description: "Placeholder",
-  tickets: 20
-})
+event_info1 =
+  Repo.insert!(%EventInfo{
+    description: "Placeholder",
+    tickets: 20
+  })
 
-Repo.insert!(%EventInfo{
-  description: "Placeholder",
-  host: "Nicholas Fernholm",
-  language: "English",
-  tickets: 20
-})
+event_info2 =
+  Repo.insert!(%EventInfo{
+    description: "Placeholder",
+    host: "Nicholas Fernholm",
+    language: "English",
+    tickets: 20
+  })
 
-Repo.insert!(%EventInfo{
-  description: "Placeholder",
-  host: "Hasse Brontén",
-  language: "Swedish",
-  tickets: 20
-})
+event_info3 =
+  Repo.insert!(%EventInfo{
+    description: "Placeholder",
+    host: "Hasse Brontén",
+    language: "Swedish",
+    tickets: 20
+  })
 
-Repo.insert!(%EventInfo{
-  description: "Placeholder",
-  host: "Pamela Von Sabljar",
-  language: "Swedish",
-  tickets: 20
-})
-
-event_info1 = Repo.get_by(EventInfo, %{id: 1})
-event_info2 = Repo.get_by(EventInfo, %{id: 2})
-event_info3 = Repo.get_by(EventInfo, %{id: 3})
-event_info4 = Repo.get_by(EventInfo, %{id: 4})
+event_info4 =
+  Repo.insert!(%EventInfo{
+    description: "Placeholder",
+    host: "Pamela Von Sabljar",
+    language: "Swedish",
+    tickets: 20
+  })
 
 EventInfo.build_assoc!(event_info1, 1)
 EventInfo.build_assoc!(event_info2, 2)
@@ -525,8 +528,13 @@ EventInfo.build_assoc!(event_info4, 4)
 # Create some event tickets
 alias Nexpo.EventTicket
 
-Repo.insert!(%EventTicket{
+event_ticket1 = %{
+  photo: true,
   student_id: 1,
   event_id: 1,
   ticket_code: Comeonin.Bcrypt.hashpwsalt(student_user1.email <> Integer.to_string(1))
-})
+}
+
+student_user1 = Repo.get_by(User, %{email: "student1@test.com"}) |> Repo.preload([:student])
+
+EventTicket.create_ticket(event_ticket1)

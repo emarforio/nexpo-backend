@@ -27,7 +27,13 @@ defmodule Nexpo.StudentController do
   def index(conn, %{}, _user, _claims) do
     students =
       Repo.all(Student)
-      |> Repo.preload([:interests, :student_sessions, :student_session_applications])
+      |> Repo.preload([
+        :interests,
+        :programme,
+        :student_sessions,
+        :student_session_applications,
+        :event_tickets
+      ])
 
     render(conn, "index.json", students: students)
   end
@@ -53,7 +59,13 @@ defmodule Nexpo.StudentController do
     student =
       Student
       |> Repo.get!(id)
-      |> Repo.preload([:interests, :programme, :student_sessions, :student_session_applications])
+      |> Repo.preload([
+        :interests,
+        :programme,
+        :student_sessions,
+        :student_session_applications,
+        :event_tickets
+      ])
 
     render(conn, "show.json", student: student)
   end
