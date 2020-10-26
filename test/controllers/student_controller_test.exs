@@ -33,6 +33,7 @@ defmodule Nexpo.StudentControllerTest do
              "master" => nil,
              "programme" => nil,
              "interests" => []
+             "event_tickets" => []
            }
   end
 
