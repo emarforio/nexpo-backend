@@ -84,13 +84,10 @@ defmodule Nexpo.Router do
       only: [:create, :update, :show, :delete, :index]
     )
 
-    delete("/event_ticket/:id", EventController, :remove_ticket)
-    delete("/event_ticket2/:id", EventController, :remove_ticket2)
-    put("/event_ticket", EventController, :create_ticket)
-    put("/event_ticket2", EventController, :create_ticket2)
-    put("/event_ticket3", EventController, :create_ticket3)
-    get("/event_tickets", EventController, :get_tickets)
-    get("/event_tickets2", EventController, :get_tickets2)
+    delete("/event/ticket/:id", EventController, :remove_ticket)
+    put("/event/ticket", EventController, :create_ticket)
+    get("/event/tickets", EventController, :get_tickets)
+    get("/admin/event/tickets", EventController, :get_all_tickets)
 
     # TODO implement
     # get("/me/company/reps", BlipController, :get_reps)
@@ -104,8 +101,6 @@ defmodule Nexpo.Router do
 
     resources("/events", EventController, only: [:index])
     get("/event/:id", EventController, :get_event)
-    get("/event2/:id", EventController, :get_event2)
-    get("/event3/:id", EventController, :get_event3)
 
     post("/initial_signup", SignupController, :create)
     get("/initial_signup/:key", SignupController, :get_current_signup)
