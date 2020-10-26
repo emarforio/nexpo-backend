@@ -32,7 +32,8 @@ defmodule Nexpo.StudentControllerTest do
              "linked_in" => nil,
              "master" => nil,
              "programme" => nil,
-             "interests" => []
+             "interests" => [],
+             "event_tickets" => []
            }
   end
 
@@ -45,7 +46,7 @@ defmodule Nexpo.StudentControllerTest do
 
   @tag :logged_in
   test "creates and renders resource when data is valid", %{conn: conn} do
-    user = Repo.insert!(%User{email: "admin@test"})
+    user = Repo.insert!(%User{email: "admin@test.com"})
     attrs = %{@valid_attrs | user_id: user.id}
     conn = post(conn, student_path(conn, :create), student: attrs)
     assert json_response(conn, 201)["data"]["id"]
@@ -60,7 +61,7 @@ defmodule Nexpo.StudentControllerTest do
 
   @tag :logged_in
   test "updates and renders chosen resource when data is valid", %{conn: conn} do
-    user = Repo.insert!(%User{email: "admin@test"})
+    user = Repo.insert!(%User{email: "admin@test.com"})
     student = Repo.insert!(%Student{})
     attrs = %{@valid_attrs | user_id: user.id}
     conn = put(conn, student_path(conn, :update, student), student: attrs)
@@ -87,7 +88,7 @@ defmodule Nexpo.StudentControllerTest do
   test "update student with resume_sv_url and resume_sv_url", %{conn: conn} do
     resume_sv_url = %Plug.Upload{path: "test/assets/placeholder.pdf", filename: "placeholder.pdf"}
     resume_en_url = %Plug.Upload{path: "test/assets/placeholder.pdf", filename: "placeholder.pdf"}
-    user = Repo.insert!(%User{email: "admin@test"})
+    user = Repo.insert!(%User{email: "admin@test.com"})
     student = Repo.insert!(%Student{})
 
     attrs = %{
@@ -105,7 +106,7 @@ defmodule Nexpo.StudentControllerTest do
   @tag :logged_in
   test "update student with cv that is not pdf gives error", %{conn: conn} do
     resume_sv_url = %Plug.Upload{path: "test/assets/placeholder.png", filename: "placeholder.png"}
-    user = Repo.insert!(%User{email: "admin@test"})
+    user = Repo.insert!(%User{email: "admin@test.com"})
     student = Repo.insert!(%Student{})
     attrs = %{@valid_attrs | user_id: user.id, resume_sv_url: resume_sv_url}
     conn = put(conn, student_path(conn, :update, student), student: attrs)

@@ -6,23 +6,7 @@ defmodule Nexpo.EventView do
   end
 
   def render("show.json", %{event: event}) do
-    %{data: render_one(event, Nexpo.EventView, "event_info.json")}
-  end
-
-  def render("event_info.json", %{event: event}) do
-    base = [
-      :id,
-      :name,
-      :date,
-      :start,
-      :end,
-      :location,
-      :host,
-      :description,
-      :language
-    ]
-
-    Nexpo.Support.View.render_object(event, base)
+    %{data: render_one(event, Nexpo.EventView, "event.json")}
   end
 
   def render("event.json", %{event: event}) do
@@ -32,7 +16,8 @@ defmodule Nexpo.EventView do
       :date,
       :start,
       :end,
-      :location
+      :location,
+      :tickets_left
     ]
 
     Nexpo.Support.View.render_object(event, base)

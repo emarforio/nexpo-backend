@@ -11,6 +11,8 @@ defmodule Nexpo.Event do
 
     has_one(:event_info, Nexpo.EventInfo, on_delete: :delete_all)
 
+    has_many(:event_tickets, Nexpo.EventTicket, on_delete: :delete_all)
+
     timestamps()
   end
 
@@ -20,6 +22,6 @@ defmodule Nexpo.Event do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :date, :start, :end, :location])
-    |> validate_required(params, [:name])
+    |> validate_required([:name])
   end
 end
