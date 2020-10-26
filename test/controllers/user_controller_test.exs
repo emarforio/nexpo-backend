@@ -41,7 +41,8 @@ defmodule Nexpo.UserControllerTest do
                "user_id" => user.id,
                "linked_in" => nil,
                "master" => nil,
-               "interests" => []
+               "interests" => [],
+               "event_tickets" => []
              }
            }
   end
