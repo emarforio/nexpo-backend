@@ -13,7 +13,8 @@ defmodule Nexpo.BlipView do
     base = [
       :id,
       :rating,
-      :comment
+      :comment,
+      :company_id
     ]
 
     Nexpo.Support.View.render_object(blip, base)

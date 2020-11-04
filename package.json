@@ -9,13 +9,13 @@
     "test-backend": "npm run startS3 && MIX_ENV=test mix do compile, test --trace && npm run stopS3",
     "test": "npm run test-backend",
     "test-coverage-backend": "npm run startS3 && MIX_ENV=test mix do compile --warnings-as-errors, coveralls.json --trace && npm run stopS3",
-    "generate-docs": "apidoc -i web -o docs",
+    "generate-docs": "apidoc -i web/ -o docs/",
     "validate-editorconfig": "eclint check * 'web/**/*' 'test/**/*' 'lib/**/*' 'config/**/*' 'priv/repo/**/*'",
     "update-toc-readme": "doctoc README.md --github",
     "download-prod-db": "MIX_ENV=dev mix ecto.drop && heroku pg:pull -a arkad-nexpo DATABASE_URL nexpo_dev"
   },
   "devDependencies": {
-    "apidoc": "^0.25.0",
+    "apidoc": "^0.17.7",
     "doctoc": "^1.4.0",
     "eclint": "^2.8.1",
     "extend": "^3.0.2",

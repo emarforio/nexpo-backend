@@ -15,49 +15,59 @@ defmodule Nexpo.BlipController do
   {
     "data": [
         {
-            "year": null,
-            "student_id": 2,
-            "resume_sv_url": null,
-            "resume_en_url": null,
-            "rating": null,
-            "programme": null,
-            "last_name": "McTest",
-            "inserted_at": "2019-09-15T14:55:43.860556",
-            "first_name": "Test",
-            "email": "test@it",
-            "comment": null
+          "year": null,
+          "student_id": 3,
+          "resume_sv_url": null,
+          "resume_en_url": null,
+          "rating": 4,
+          "programme": null,
+          "profile_image": null,
+          "master": null,
+          "linked_in": null,
+          "last_name": "Student",
+          "interests": [],
+          "inserted_at": "2020-10-24T14:44:18.430950",
+          "first_name": "Charlie",
+          "email": "student3@test.com",
+          "comment": "who dis?"
         }
     ]
   }
 
-  @apiUse NotFoundError
-  @apiUse BadRequestError
+  @apiUse ForbiddenError
   """
   def index(conn, _params, user, _claims) do
-    company_id =
+    representative =
       user
       |> Repo.preload(:representative)
       |> Map.get(:representative)
-      |> Map.get(:company_id)
 
-    blips =
-      from(b in Blip,
-        where: b.company_id == ^company_id
-      )
-      |> order_by(desc: :inserted_at)
-      |> Repo.all()
-      |> Repo.preload([
-        [student: [:interests, :user, :programme]]
-      ])
-      |> Enum.map(fn blip ->
-        blip
-        |> Map.merge(blip.student)
-        |> Map.merge(blip.student.user)
-        |> Map.put(:blipped_at, blip.inserted_at)
-        |> Map.drop([:user])
-      end)
+    case representative do
+      nil ->
+        send_resp(conn, :forbidden, "")
 
-    render(conn, "index.json", blips: blips)
+      representative ->
+        company_id = representative.company_id
+
+        blips =
+          from(b in Blip,
+            where: b.company_id == ^company_id
+          )
+          |> order_by(desc: :inserted_at)
+          |> Repo.all()
+          |> Repo.preload([
+            [student: [:interests, :user, :programme]]
+          ])
+          |> Enum.map(fn blip ->
+            blip
+            |> Map.merge(blip.student)
+            |> Map.merge(blip.student.user)
+            |> Map.put(:blipped_at, blip.inserted_at)
+            |> Map.drop([:user])
+          end)
+
+        render(conn, "index.json", blips: blips)
+    end
   end
 
   @apidoc """
@@ -75,16 +85,24 @@ defmodule Nexpo.BlipController do
   HTTP 200 OK
   {
     "data": {
-        "student_id": 3,
-        "rating": null,
-        "id": 24,
-        "company_id": 2,
-        "comment": null
+      "student": {
+        "year": null,
+        "user_id": 4,
+        "resume_sv_url": null,
+        "resume_en_url": null,
+        "master": null,
+        "linked_in": null,
+        "id": 3
+      },
+      "rating": 2,
+      "id": 9,
+      "company_id": 1,
+      "comment": "haha"
     }
   }
 
   @apiUse UnprocessableEntity
-  @apiUse NotFoundError
+  @apiUse ForbiddenError
   @apiUse BadRequestError
   """
   def create(conn, blip_params, user, _claims) do
@@ -100,7 +118,8 @@ defmodule Nexpo.BlipController do
         |> Repo.insert()
         |> case do
           {:ok, blip} ->
-            blip = Repo.preload(blip, [:student, :company])
+            blip = Repo.preload(blip, [:student])
+            blip = Map.put(blip, "company_id", company_id)
 
             conn
             |> put_status(:created)
@@ -125,26 +144,21 @@ defmodule Nexpo.BlipController do
 
   HTTP 200 OK
   {
-    "student_id": 1,
-    "student": {
-        "year": null,
-        "user_id": 1,
-        "user": {
-            "phone_number": "0707112233",
-            "last_name": "Dev",
-            "id": 1,
-            "food_preferences": "cake",
-            "first_name": "Dev",
-            "email": "dev@it"
-        },
-        "resume_sv_url": null,
-        "resume_en_url": null,
-        "programme": null,
-        "id": 1
-    },
-    "rating": 5,
-    "inserted_at": "2019-09-19T17:08:45.126611",
-    "comment": "Actually we do need birds"
+    "year": null,
+    "student_id": 3,
+    "resume_sv_url": null,
+    "resume_en_url": null,
+    "rating": 4,
+    "programme": null,
+    "profile_image": null,
+    "master": null,
+    "linked_in": null,
+    "last_name": "Student",
+    "interests": [],
+    "inserted_at": "2020-10-24T14:44:18.430950",
+    "first_name": "Charlie",
+    "email": "student3@test.com",
+    "comment": "who dis?"
   }
 
   @apiUse NotFoundError
@@ -156,7 +170,11 @@ defmodule Nexpo.BlipController do
     |> Repo.preload([
       [student: [:interests, :user, :programme]]
     ])
-    |> case do
+
+    case user do
+      nil ->
+        send_resp(conn, :not_found, "")
+
       blip = %{} ->
         blip =
           blip
@@ -166,37 +184,33 @@ defmodule Nexpo.BlipController do
           |> Map.drop([:user])
 
         render(conn, "student.json", blip: blip)
-
-      nil ->
-        send_resp(conn, :not_found, "")
     end
   end
 
   @apidoc """
   @api {PATCH} /api/me/company/blips/:student_id Update blip info
   @apiGroup Blips
-  @apiDescription Update a comment of a student that has blipped your company
-  @apiParam {Integer} student_id    The id of the student
+  @apiDescription Update the comment or rating of a student scanned by this company
+  @apiParam {Integer} rating    The new rating in JSON body
+  @apiParam {String} comment     The new comment in JSON body
   @apiSuccessExample {json} Success
 
   HTTP 200 OK
   {
     "data": {
-        "student_id": 3,
-        "rating": null,
-        "id": 24,
-        "company_id": 2,
-        "comment": null
+      "rating": 2,
+      "id": 3,
+      "comment": "haha"
     }
   }
 
-  @apiUse NotFoundError
+  @apiUse UnprocessableEntity
   @apiUse BadRequestError
   """
   def update(conn, %{"id" => student_id} = blip_params, user, _claims) do
     user
     |> get_blip(student_id)
-    |> Blip.changeset(blip_params)
+    |> Blip.changeset(%{rating: blip_params.rating, comment: blip_params.comment})
     |> Repo.update()
     |> case do
       {:ok, blip} ->
@@ -215,18 +229,30 @@ defmodule Nexpo.BlipController do
   @apiDescription Delete comment, rating and the blip itself from a student who blipped your company
   @apiParam {Integer} student_id    The id of the student
   @apiSuccessExample {json} Success
-  HTTP 200 OK
+  HTTP 204 NoContent
   (empty resp)
 
   @apiUse NotFoundError
   @apiUse BadRequestError
   """
   def delete(conn, %{"id" => student_id}, user, _claims) do
-    user
-    |> get_blip(student_id)
-    |> Repo.delete!()
+    blip = get_blip(user, student_id)
 
-    send_resp(conn, :no_content, "")
+    case blip do
+      nil ->
+        send_resp(conn, :not_found, "")
+
+      blip ->
+        case Repo.delete(blip) do
+          {:ok, struct} ->
+            send_resp(conn, :no_content, "")
+
+          {:error, changeset} ->
+            conn
+            |> put_status(:unprocessable_entity)
+            |> render(Nexpo.ChangesetView, "error.json", changeset: changeset)
+        end
+    end
   end
 
   defp company_id(user) do
