@@ -29,6 +29,15 @@ defmodule Nexpo.ErrorView do
   end
 
   @apidoc """
+  @apiDefine ForbiddenError
+  @apiErrorExample {json} Forbidden
+    HTTP 403 Forbidden
+  """
+  def render("403.json", _assigns) do
+    generate_error("Forbidden")
+  end
+
+  @apidoc """
   @apiDefine InternalServerError
   @apiErrorExample {json} Internal server error
     HTTP 500 Internal server error
