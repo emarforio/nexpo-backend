@@ -105,37 +105,81 @@ defmodule Nexpo.UserController do
     HTTP 200 OK
     {
       "data": {
-          "student": {
-              "year": 2019,
-              "user_id": 000,
-              "student_sessions": [],
-              "student_session_applications": [],
-              "resume_sv_url": null,
-              "resume_en_url": null,
-              "programme": {
-                  "name": "D-Guild",
-                  "id": 7,
-                  "code": "D"
+        "student": {
+          "year": null,
+          "user_id": 2,
+          "student_sessions": [
+            {
+              "student_session_time_slot": {
+                "start": "2000-01-01T08:00:00.000000",
+                "location": "Albatraoz",
+                "id": 1,
+                "end": "2000-01-01T08:15:00.000000"
               },
-              "id": 000
-          },
-          "roles": [
-              {
-                  "type": "admin",
-                  "permissions": [
-                      "read_all",
-                      "write_all"
-                  ],
-                  "id": 1
+              "student_session_status": 1,
+              "student_id": 1,
+              "id": 1,
+              "company_id": 1,
+              "company": {
+                "website": "www.google.com",
+                "top_students": [],
+                "student_session_days": 1,
+                "name": "Google",
+                "logo_url": null,
+                "id": 1,
+                "host_phone_number": null,
+                "host_name": null,
+                "host_mail": null,
+                "description": "We code!"
               }
+            }
           ],
-          "representative": null,
-          "phone_number": "0713371337",
-          "last_name": "Developer",
-          "id": 000,
-          "food_preferences": null,
-          "first_name": "Developer",
-          "email": "developer@nexpo.com"
+          "student_session_applications": [
+            {
+              "student_id": 1,
+              "score": 5,
+              "motivation": "",
+              "id": 1,
+              "company_id": 1,
+              "company": {
+                "website": "www.google.com",
+                "top_students": [],
+                "student_session_days": 1,
+                "name": "Google",
+                "logo_url": null,
+                "id": 1,
+                "host_phone_number": null,
+                "host_name": null,
+                "host_mail": null,
+                "description": "We code!"
+              }
+            }
+          ],
+          "resume_sv_url": null,
+          "resume_en_url": null,
+          "programme": null,
+          "master": null,
+          "linked_in": null,
+          "interests": [],
+          "id": 1,
+          "event_tickets": [
+            {
+              "ticket_code": "$2b$04$AL20RQhngqq.m8risJDwYOYrwOkyWPeDAV5FTJlYlErhxUgphTnlW",
+              "photo": true,
+              "id": 1,
+              "event_id": 1
+            }
+          ]
+        },
+        "roles": [],
+        "representative": null,
+        "profile_image": null,
+        "phone_number": "0708334455",
+        "last_name": "Student",
+        "id": 2,
+        "food_preferences": "",
+        "first_name": "Alfa",
+        "email": "student1@test.com"
       }
   }
 

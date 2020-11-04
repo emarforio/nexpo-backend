@@ -22,7 +22,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP 200 OK\n(empty resp)",
+          "content": "HTTP 204 NoContent\n(empty resp)",
           "type": "json"
         }
       ]
@@ -56,7 +56,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "\nHTTP 200 OK\n{\n  \"data\": [\n      {\n          \"year\": null,\n          \"student_id\": 2,\n          \"resume_sv_url\": null,\n          \"resume_en_url\": null,\n          \"rating\": null,\n          \"programme\": null,\n          \"last_name\": \"McTest\",\n          \"inserted_at\": \"2019-09-15T14:55:43.860556\",\n          \"first_name\": \"Test\",\n          \"email\": \"student@test\",\n          \"comment\": null\n      }\n  ]\n}",
+          "content": "\nHTTP 200 OK\n{\n  \"data\": [\n      {\n        \"year\": null,\n        \"student_id\": 3,\n        \"resume_sv_url\": null,\n        \"resume_en_url\": null,\n        \"rating\": 4,\n        \"programme\": null,\n        \"profile_image\": null,\n        \"master\": null,\n        \"linked_in\": null,\n        \"last_name\": \"Student\",\n        \"interests\": [],\n        \"inserted_at\": \"2020-10-24T14:44:18.430950\",\n        \"first_name\": \"Charlie\",\n        \"email\": \"student3@test.com\",\n        \"comment\": \"who dis?\"\n      }\n  ]\n}",
           "type": "json"
         }
       ]
@@ -68,13 +68,8 @@
     "error": {
       "examples": [
         {
-          "title": "Not Found",
-          "content": "HTTP 404 Not Found",
-          "type": "json"
-        },
-        {
-          "title": "Bad Request",
-          "content": "HTTP 400 Bad Request",
+          "title": "Forbidden",
+          "content": "HTTP 403 Forbidden",
           "type": "json"
         }
       ]
@@ -90,7 +85,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "\nHTTP 200 OK\n{\n  \"student_id\": 1,\n  \"student\": {\n      \"year\": null,\n      \"user_id\": 1,\n      \"user\": {\n          \"phone_number\": \"0707112233\",\n          \"last_name\": \"Dev\",\n          \"id\": 1,\n          \"food_preferences\": \"cake\",\n          \"first_name\": \"Dev\",\n          \"email\": \"admin@test\"\n      },\n      \"resume_sv_url\": null,\n      \"resume_en_url\": null,\n      \"programme\": null,\n      \"id\": 1\n  },\n  \"rating\": 5,\n  \"inserted_at\": \"2019-09-19T17:08:45.126611\",\n  \"comment\": \"Actually we do need birds\"\n}",
+          "content": "\nHTTP 200 OK\n{\n  \"year\": null,\n  \"student_id\": 3,\n  \"resume_sv_url\": null,\n  \"resume_en_url\": null,\n  \"rating\": 4,\n  \"programme\": null,\n  \"profile_image\": null,\n  \"master\": null,\n  \"linked_in\": null,\n  \"last_name\": \"Student\",\n  \"interests\": [],\n  \"inserted_at\": \"2020-10-24T14:44:18.430950\",\n  \"first_name\": \"Charlie\",\n  \"email\": \"student3@test.com\",\n  \"comment\": \"who dis?\"\n}",
           "type": "json"
         }
       ]
@@ -119,7 +114,7 @@
     "url": "/api/me/company/blips/:student_id",
     "title": "Update blip info",
     "group": "Blips",
-    "description": "<p>Update a comment of a student that has blipped your company</p>",
+    "description": "<p>Update the comment or rating of a student scanned by this company</p>",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -127,8 +122,15 @@
             "group": "Parameter",
             "type": "Integer",
             "optional": false,
-            "field": "student_id",
-            "description": "<p>The id of the student</p>"
+            "field": "rating",
+            "description": "<p>The new rating in JSON body</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "comment",
+            "description": "<p>The new comment in JSON body</p>"
           }
         ]
       }
@@ -137,7 +139,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "\nHTTP 200 OK\n{\n  \"data\": {\n      \"student_id\": 3,\n      \"rating\": null,\n      \"id\": 24,\n      \"company_id\": 2,\n      \"comment\": null\n  }\n}",
+          "content": "\nHTTP 200 OK\n{\n  \"data\": {\n    \"rating\": 2,\n    \"id\": 3,\n    \"comment\": \"haha\"\n  }\n}",
           "type": "json"
         }
       ]
@@ -147,10 +149,28 @@
     "groupTitle": "Blips",
     "name": "PatchApiMeCompanyBlipsStudent_id",
     "error": {
+      "fields": {
+        "UnprocessableEntity 422": [
+          {
+            "group": "UnprocessableEntity 422",
+            "type": "Object",
+            "optional": false,
+            "field": "errors",
+            "description": "<p>Object containing errors</p>"
+          },
+          {
+            "group": "UnprocessableEntity 422",
+            "type": "String[]",
+            "optional": false,
+            "field": "errors.[unprocessable-key]",
+            "description": "<p>Array of String error messages</p>"
+          }
+        ]
+      },
       "examples": [
         {
-          "title": "Not Found",
-          "content": "HTTP 404 Not Found",
+          "title": "UnprocessableEntity",
+          "content": "HTTP 422 Unprocessable Entity\n{\n  \"errors\": {\n    \"title\": [\n      \"can't be blank\"\n    ]\n  }\n}",
           "type": "json"
         },
         {
@@ -205,7 +225,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "HTTP 200 OK\n{\n  \"data\": {\n      \"student_id\": 3,\n      \"rating\": null,\n      \"id\": 24,\n      \"company_id\": 2,\n      \"comment\": null\n  }\n}",
+          "content": "HTTP 200 OK\n{\n  \"data\": {\n    \"student\": {\n      \"year\": null,\n      \"user_id\": 4,\n      \"resume_sv_url\": null,\n      \"resume_en_url\": null,\n      \"master\": null,\n      \"linked_in\": null,\n      \"id\": 3\n    },\n    \"rating\": 2,\n    \"id\": 9,\n    \"company_id\": 1,\n    \"comment\": \"haha\"\n  }\n}",
           "type": "json"
         }
       ]
@@ -240,8 +260,8 @@
           "type": "json"
         },
         {
-          "title": "Not Found",
-          "content": "HTTP 404 Not Found",
+          "title": "Forbidden",
+          "content": "HTTP 403 Forbidden",
           "type": "json"
         },
         {
@@ -925,7 +945,7 @@
       "examples": [
         {
           "title": "Success",
-          "content": "  HTTP 200 OK\n  {\n    \"data\": {\n        \"student\": {\n            \"year\": 2019,\n            \"user_id\": 000,\n            \"student_sessions\": [],\n            \"student_session_applications\": [],\n            \"resume_sv_url\": null,\n            \"resume_en_url\": null,\n            \"programme\": {\n                \"name\": \"D-Guild\",\n                \"id\": 7,\n                \"code\": \"D\"\n            },\n            \"id\": 000\n        },\n        \"roles\": [\n            {\n                \"type\": \"admin\",\n                \"permissions\": [\n                    \"read_all\",\n                    \"write_all\"\n                ],\n                \"id\": 1\n            }\n        ],\n        \"representative\": null,\n        \"phone_number\": \"0713371337\",\n        \"last_name\": \"Developer\",\n        \"id\": 000,\n        \"food_preferences\": null,\n        \"first_name\": \"Developer\",\n        \"email\": \"developer@nexpo.com\"\n    }\n}",
+          "content": "  HTTP 200 OK\n  {\n    \"data\": {\n      \"student\": {\n        \"year\": null,\n        \"user_id\": 2,\n        \"student_sessions\": [\n          {\n            \"student_session_time_slot\": {\n              \"start\": \"2000-01-01T08:00:00.000000\",\n              \"location\": \"Albatraoz\",\n              \"id\": 1,\n              \"end\": \"2000-01-01T08:15:00.000000\"\n            },\n            \"student_session_status\": 1,\n            \"student_id\": 1,\n            \"id\": 1,\n            \"company_id\": 1,\n            \"company\": {\n              \"website\": \"www.google.com\",\n              \"top_students\": [],\n              \"student_session_days\": 1,\n              \"name\": \"Google\",\n              \"logo_url\": null,\n              \"id\": 1,\n              \"host_phone_number\": null,\n              \"host_name\": null,\n              \"host_mail\": null,\n              \"description\": \"We code!\"\n            }\n          }\n        ],\n        \"student_session_applications\": [\n          {\n            \"student_id\": 1,\n            \"score\": 5,\n            \"motivation\": \"\",\n            \"id\": 1,\n            \"company_id\": 1,\n            \"company\": {\n              \"website\": \"www.google.com\",\n              \"top_students\": [],\n              \"student_session_days\": 1,\n              \"name\": \"Google\",\n              \"logo_url\": null,\n              \"id\": 1,\n              \"host_phone_number\": null,\n              \"host_name\": null,\n              \"host_mail\": null,\n              \"description\": \"We code!\"\n            }\n          }\n        ],\n        \"resume_sv_url\": null,\n        \"resume_en_url\": null,\n        \"programme\": null,\n        \"master\": null,\n        \"linked_in\": null,\n        \"interests\": [],\n        \"id\": 1,\n        \"event_tickets\": [\n          {\n            \"ticket_code\": \"$2b$04$AL20RQhngqq.m8risJDwYOYrwOkyWPeDAV5FTJlYlErhxUgphTnlW\",\n            \"photo\": true,\n            \"id\": 1,\n            \"event_id\": 1\n          }\n        ]\n      },\n      \"roles\": [],\n      \"representative\": null,\n      \"profile_image\": null,\n      \"phone_number\": \"0708334455\",\n      \"last_name\": \"Student\",\n      \"id\": 2,\n      \"food_preferences\": \"\",\n      \"first_name\": \"Alfa\",\n      \"email\": \"student1@test.com\"\n    }\n}",
           "type": "json"
         }
       ]
