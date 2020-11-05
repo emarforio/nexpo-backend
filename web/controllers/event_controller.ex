@@ -56,6 +56,7 @@ defmodule Nexpo.EventController do
   @api {GET} /api/event/:id Get an event
   @apiGroup Events
   @apiDescription Fetch a single event
+  @apiParam {Integer} event_id    Id of the event
   @apiSuccessExample {json} Success
 
   HTTP 200 OK
@@ -184,6 +185,14 @@ defmodule Nexpo.EventController do
   @api {PUT} /api/event/ticket Create ticket
   @apiGroup Events
   @apiDescription Create a ticket for this student
+  @apiParam {Integer} event_id    Id of event
+  @apiParam {Boolean} photo    If student allows taking photos of themselves
+  @apiParamExample {json} Request-Example:
+                 { 
+                   "event_id": 1
+                   "photo": true
+                 }
+
   @apiSuccessExample {json} Success
 
   HTTP 201 Created
@@ -250,6 +259,7 @@ defmodule Nexpo.EventController do
   @api {DELETE} /api/event/ticket/:id Delete a ticket
   @apiGroup Events
   @apiDescription Remove a ticket for this student
+  @apiParam {Integer} event_id    Id of the event
   @apiSuccessExample {json} Success
 
   HTTP 204 OK
