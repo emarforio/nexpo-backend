@@ -22,7 +22,95 @@ defmodule Nexpo.UserController do
     ]
     when action in [:update, :delete]
   )
+  @apidoc """
+  @api {GET} /api/users Get all users
+  @apiGroup User
+  @apiDescription Fetch all users as admin
+  @apiSuccessExample {json} Success
 
+  HTTP 200 OK
+  {
+    "data": [
+      {
+        "student": {
+          "year": null,
+          "user_id": 4,
+          "student_sessions": [],
+          "student_session_applications": [
+            {
+              "student_id": 3,
+              "score": 2,
+              "motivation": "",
+              "id": 7,
+              "company_id": 1
+            },
+            {
+              "student_id": 3,
+              "score": 3,
+              "motivation": "",
+              "id": 8,
+              "company_id": 2
+            },
+            {
+              "student_id": 3,
+              "score": 4,
+              "motivation": "",
+              "id": 9,
+              "company_id": 3
+            }
+          ],
+          "resume_sv_url": null,
+          "resume_en_url": null,
+          "programme": null,
+          "master": null,
+          "linked_in": null,
+          "interests": [],
+          "id": 3,
+          "event_tickets": []
+        },
+        "roles": [],
+        "representative": null,
+        "profile_image": null,
+        "phone_number": "0708334455",
+        "last_name": "Student",
+        "id": 4,
+        "food_preferences": "",
+        "first_name": "Charlie",
+        "email": "student3@test.com"
+      },
+      {
+        "student": null,
+        "roles": [],
+        "representative": {
+          "user_id": 5,
+          "id": 1,
+          "company_id": 1,
+          "company": {
+            "website": "www.google.com",
+            "top_students": [],
+            "student_session_days": 1,
+            "name": "Google",
+            "logo_url": null,
+            "id": 1,
+            "host_phone_number": null,
+            "host_name": null,
+            "host_mail": null,
+            "description": "We code!"
+          }
+        },
+        "profile_image": null,
+        "phone_number": "555123456",
+        "last_name": "Company",
+        "id": 5,
+        "food_preferences": "",
+        "first_name": "Alfa",
+        "email": "company1@test.com"
+      }
+    ]
+  }
+
+  @apiUse UnauthorizedError
+  """
   def index(conn, %{}, _user, _claims) do
     users =
       Repo.all(User)
@@ -41,6 +129,49 @@ defmodule Nexpo.UserController do
     render(conn, "index.json", users: users)
   end
 
+  @apidoc """
+  @api {GET} /api/users/:id Get a single user
+  @apiGroup User
+  @apiDescription Fetch a single user as admin
+  @apiParam {Integer} id    Id of the user
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+  {
+    "data": {
+      "student": null,
+      "roles": [],
+      "representative": {
+        "user_id": 7,
+        "id": 3,
+        "company_id": 3,
+        "company": {
+          "website": "www.intel.com",
+          "top_students": [],
+          "student_session_days": 3,
+          "name": "Intel",
+          "logo_url": null,
+          "id": 3,
+          "host_phone_number": null,
+          "host_name": null,
+          "host_mail": null,
+          "description": "We do stuff!"
+        }
+      },
+      "profile_image": null,
+      "phone_number": "555123456",
+      "last_name": "Company",
+      "id": 7,
+      "food_preferences": "",
+      "first_name": "Charlie",
+      "email": "company3@test.com"
+    }
+  }
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}, _user, _claims) do
     user =
       Repo.get!(User, id)
@@ -86,6 +217,19 @@ defmodule Nexpo.UserController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/users/:id Delete a user
+  @apiGroup Events
+  @apiDescription Remove a user as admin
+  @apiParam {Integer} id    Id of the user to be deleted
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+  """
   def delete(conn, %{"id" => id}, _user, _claims) do
     user = Repo.get!(User, id)
 

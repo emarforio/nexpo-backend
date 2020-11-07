@@ -88,6 +88,23 @@ defmodule Nexpo.StudentController do
     end
   end
 
+  @apidoc """
+  @api {PUT} /api/me/student Update info
+  @apiGroup Student
+  @apiDescription  Update your own info as student
+  @apiParam {json} student   Nested JSON object containing below fields 
+  @apiParam {Integer}  student.year   Optional, Enrollment year
+  @apiParam {String}  student.master   Optional, Programme (C, D, E etc.)
+  @apiParam {String}  student.linked_in   Optional, LinkedIn link
+  @apiParam {String}  student.resume_en_url   Optional, Resume in english link
+  @apiParam {String}  student.resume_sv_url   Optional, Resume in swedish link
+  @apiSuccessExample {json} Success
+  
+  HTTP 200 OK
+  
+  @apiUse BadRequestError
+  @apiUse UnprocessableEntity
+  """
   def update_student(conn, %{"student" => student_params}, user, _claims) do
     student =
       Repo.get_by!(Student, %{user_id: user.id})

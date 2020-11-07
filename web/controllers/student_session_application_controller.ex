@@ -31,6 +31,25 @@ defmodule Nexpo.StudentSessionApplicationController do
     end
   end
 
+  @apidoc """
+  @api {PUT} /api/me/student_session_applications/:id Update an application
+  @apiGroup Student
+  @apiDescription  Update an applictaion as student
+  @apiParam {json} student_session_application   Nested JSON object containing below fields 
+  @apiParam {String}  student_session_application.motivation   Optional, Motivation for application
+  @apiParam {Boolean}  student_session_application.company_approved   Optional, If applictation is approved by company
+  @apiParam {Integer}  student_session_application.score   Optional, Score of application, judged by company?
+  @apiParam {Integer}  student_session_application.company_id   Optional, Id of company
+  @apiParam {Integer}  student_session_application.student_id    Optional, Id of student
+  @apiSuccessExample {json} Success
+  
+  HTTP 200 OK
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnprocessableEntity
+  """
+  #TODO: implement access control, after that check apidoc for this one too
   def update_me(
         conn,
         %{
@@ -65,6 +84,18 @@ defmodule Nexpo.StudentSessionApplicationController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/me/student_session_applications/:id Delete an application
+  @apiGroup Application
+  @apiDescription Delete an application that this student made
+  @apiParam {Integer} id    Id of the application
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse BadRequestError
+  @apiUse NotFoundError
+  """
   def delete_me(conn, %{"id" => application_id}, user, _claims) do
     student = Repo.get_by!(Student, %{user_id: user.id})
 

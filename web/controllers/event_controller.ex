@@ -56,7 +56,7 @@ defmodule Nexpo.EventController do
   @api {GET} /api/event/:id Get an event
   @apiGroup Events
   @apiDescription Fetch a single event
-  @apiParam {Integer} event_id    Id of the event
+  @apiParam {Integer} id    Id of the event
   @apiSuccessExample {json} Success
 
   HTTP 200 OK
@@ -259,7 +259,7 @@ defmodule Nexpo.EventController do
   @api {DELETE} /api/event/ticket/:id Delete a ticket
   @apiGroup Events
   @apiDescription Remove a ticket for this student
-  @apiParam {Integer} event_id    Id of the event
+  @apiParam {Integer} id    Id of the event
   @apiSuccessExample {json} Success
 
   HTTP 204 OK
