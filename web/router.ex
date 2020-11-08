@@ -109,5 +109,15 @@ defmodule Nexpo.Router do
     post("/password/forgot", UserController, :forgot_password_init)
     get("/password/forgot/:key", UserController, :forgot_password_verification)
     post("/password/new/:key", UserController, :replace_forgotten_password)
+
+    get("/forms/:id", FormController, :get_form)
+    delete("/forms/:id", FormController, :delete_form)
+    resources("/forms", FormController, only: [:index])
+    post("/forms", FormController, :create_form)
+    put("/forms", FormController, :update_form)
+
+    get("/form_responses/:id", FormController, :get_response)
+    delete("/form_responses/:id", FormController, :delete_response)
+    post("/form_responses", FormController, :create_response)
   end
 end
