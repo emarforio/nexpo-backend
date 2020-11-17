@@ -55,6 +55,19 @@ defmodule Nexpo.SignupController do
     end
   end
 
+  @apidoc """
+  @api {POST} /api/me/company/initial_representative_signup Create representative
+  @apiGroup Company
+  @apiDescription As a company, create a representative
+  @apiParam {String} email    Email of user to invite
+  @apiParam {Integer} id    Id of the company
+  @apiSuccessExample {json} Success
+  HTTP 201 Created
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+  """
   def create_representative(conn, %{"email" => email, "company_id" => company_id}) do
     case User.initial_signup(%{email: email}) do
       {:ok, user} ->
@@ -74,6 +87,19 @@ defmodule Nexpo.SignupController do
   end
 
   # Called by co-worker
+  @apidoc """
+  @api {POST} /api/me/company/invite_representative Invite representative
+  @apiGroup Company
+  @apiDescription As a company, invite a representative
+  @apiParam {String} email    Email of user to invite
+  @apiParam {Integer} id    Id of the company
+  @apiSuccessExample {json} Success
+  HTTP 201 Created
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+  """
   def invite_representative(conn, %{"email" => email, "company_id" => company_id}) do
     case User.initial_signup(%{email: email}) do
       {:ok, user} ->

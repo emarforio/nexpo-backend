@@ -24,6 +24,15 @@ defmodule Nexpo.StudentController do
     when action in [:create, :update, :delete]
   )
 
+  @apidoc """
+  @api {GET} /api/students Get all students
+  @apiGroup Students
+  @apiDescription Fetch all available Students
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+  @apiUse UnauthorizedError
+  """
   def index(conn, %{}, _user, _claims) do
     students =
       Repo.all(Student)
@@ -38,6 +47,35 @@ defmodule Nexpo.StudentController do
     render(conn, "index.json", students: students)
   end
 
+  @apidoc """
+  @api {POST} /api/students Create a student
+  @apiGroup Students
+  @apiDescription Create a student 
+  @apiParam {json} student   Nested JSON object containing below fields 
+  @apiParam {Integer}  student.year   Optional, Enrollment year
+  @apiParam {String}  student.master   Optional, Programme (C, D, E etc.)
+  @apiParam {String}  student.linked_in   Optional, LinkedIn link
+  @apiParam {{array, string}} student.interests   Optional, Student interests
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+      "year": 3,
+      "user_id": 10,
+      "resume_sv_url": null,
+      "resume_en_url": null,
+      "master": "D",
+      "linked_in": "No",
+      "interests": [],
+      "id": 6
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"student" => student_params}, _user, _claims) do
     changeset = Student.changeset(%Student{}, student_params)
 
@@ -55,6 +93,20 @@ defmodule Nexpo.StudentController do
     end
   end
 
+  @apidoc """
+  @api {GET} /api/students/:id Get a student
+  @apiGroup Students
+  @apiDescription Fetch a single student
+  @apiParam {Integer} id    Id of the student
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+ 
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}, _user, _claims) do
     student =
       Student
@@ -70,6 +122,23 @@ defmodule Nexpo.StudentController do
     render(conn, "show.json", student: student)
   end
 
+  @apidoc """
+  @api {PUT} /api/me/student Update info
+  @apiGroup Student
+  @apiDescription  Update student info
+  @apiParam {json} student   Nested JSON object containing below fields 
+  @apiParam {Integer}  student.year   Optional, Enrollment year
+  @apiParam {String}  student.master   Optional, Programme (C, D, E etc.)
+  @apiParam {String}  student.linked_in   Optional, LinkedIn link
+  @apiParam {String}  student.resume_en_url   Optional, Resume in english link
+  @apiParam {String}  student.resume_sv_url   Optional, Resume in swedish link
+  @apiSuccessExample {json} Success
+  
+  HTTP 200 OK
+  
+  @apiUse BadRequestError
+  @apiUse UnprocessableEntity
+  """
   def update(conn, %{"id" => id, "student" => student_params}, _user, _claims) do
     student =
       Repo.get!(Student, id)
@@ -141,6 +210,18 @@ defmodule Nexpo.StudentController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/students/:id Delete a student
+  @apiGroup Roles
+  @apiDescription Completely remove a student
+  @apiParam {Integer} id    Id of the student
+  @apiSuccessExample {json} Success
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}, _user, _claims) do
     student = Repo.get!(Student, id)
 

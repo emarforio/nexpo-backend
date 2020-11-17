@@ -22,11 +22,42 @@ defmodule Nexpo.RepresentativeController do
     when action in [:create, :update, :delete]
   )
 
+  @apidoc """
+  @api {GET} /api/representatives Get all representatives
+  @apiGroup Representatives
+  @apiDescription Fetch all available representatives
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse UnauthorizedError
+  """
   def index(conn, _params) do
     representatives = Repo.all(Representative)
     render(conn, "index.json", representatives: representatives)
   end
 
+  @apidoc """
+  @api {POST} /api/representatives Create a representative
+  @apiGroup Representatives
+  @apiDescription Create a representative 
+  @apiParam {Integer}  user_id   User id
+  @apiParam {Integer} company_id Company id
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+      "user_id": 3,
+      "id": 6,
+      "company_id": 2
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"representative" => representative_params}) do
     changeset = Representative.changeset(%Representative{}, representative_params)
 
@@ -44,11 +75,41 @@ defmodule Nexpo.RepresentativeController do
     end
   end
 
+  @apidoc """
+  @api {GET} /api/representatives/:id Get a representative
+  @apiGroup Representatives
+  @apiDescription Fetch a single representative
+  @apiParam {Integer} id    Id of the representative
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+ 
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}) do
     representative = Repo.get!(Representative, id)
     render(conn, "show.json", representative: representative)
   end
 
+  @apidoc """
+  @api {PUT} /api/representatives/:id Update a representative
+  @apiGroup Representatives
+  @apiDescription Update a representative
+  @apiParam {Integer}  id   Id of representative
+  @apiParam {json} representative   Nested JSON object containing below fields 
+  @apiParam {Integer} representative.user_id User id
+  @apiParam {Integer} representative.company_id Company id
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def update(conn, %{"id" => id, "representative" => representative_params}) do
     representative = Repo.get!(Representative, id)
     changeset = Representative.changeset(representative, representative_params)
@@ -64,6 +125,19 @@ defmodule Nexpo.RepresentativeController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/representatives/:id Delete a representative
+  @apiGroup Representatives
+  @apiDescription Completely remove a representative
+  @apiParam {Integer} id    Id of the representative
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}) do
     representative = Repo.get!(Representative, id)
 

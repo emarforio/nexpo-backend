@@ -22,11 +22,63 @@ defmodule Nexpo.RoleController do
     when action in [:create, :update, :delete]
   )
 
+  @apidoc """
+  @api {GET} /api/roles Get all roles
+  @apiGroup Roles
+  @apiDescription Fetch all available roles
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+  {
+    "data": [
+      {
+          "type": "admin",
+          "permissions": [
+              "read_all",
+              "write_all"
+          ],
+          "id": 1
+      },
+      {
+          "type": "company",
+          "permissions": [
+              "read_company",
+              "write_company"
+          ],
+          "id": 2
+      }
+    ]
+  }
+  @apiUse UnauthorizedError
+  """
   def index(conn, _params) do
     roles = Repo.all(Role)
     render(conn, "index.json", roles: roles)
   end
+  
+  @apidoc """
+  @api {POST} /api/roles Create role
+  @apiGroup Roles
+  @apiDescription Create a role 
+  @apiParam {json} role   Nested JSON object containing below fields 
+  @apiParam {String} role.type   Role (admin, student)
+  @apiParam {{array, string}} role.permissions   Permissions for role
 
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+      "type": "student",
+      "permissions": [],
+      "id": 4
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"role" => role_params}) do
     changeset =
       Role.changeset(%Role{}, role_params)
@@ -46,6 +98,30 @@ defmodule Nexpo.RoleController do
     end
   end
 
+  @apidoc """
+  @api {GET} /api/roles/:id Get a role
+  @apiGroup Roles
+  @apiDescription Fetch a single role
+  @apiParam {Integer} id    Id of the role
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+  {
+    "data": {
+      "users": [],
+      "type": "company",
+      "permissions": [
+          "read_company",
+          "write_company"
+      ],
+      "id": 2
+    }
+  }
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}) do
     role =
       Repo.get!(Role, id)
@@ -54,6 +130,22 @@ defmodule Nexpo.RoleController do
     render(conn, "show.json", role: role)
   end
 
+  @apidoc """
+  @api {PUT} /api/roles/:id Update role
+  @apiGroup Roles
+  @apiDescription Update role type and permissions
+  @apiParam {json} role   Nested JSON object containing below fields 
+  @apiParam {String} role.type   Role (admin, student)
+  @apiParam {{array, string}} role.permissions   Permissions for role
+  @apiSuccessExample {json} Success
+  HTTP 200 OK
+
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+
+  """
   def update(conn, %{"id" => id, "role" => role_params}) do
     role = Repo.get!(Role, id) |> Repo.preload(:users)
 
@@ -72,6 +164,18 @@ defmodule Nexpo.RoleController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/role/:id Delete role
+  @apiGroup Roles
+  @apiDescription Completely remove role
+  @apiParam {Integer} id    Id of the role
+  @apiSuccessExample {json} Success
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}) do
     role = Repo.get!(Role, id)
 

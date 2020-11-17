@@ -22,11 +22,40 @@ defmodule Nexpo.InterestController do
     when action in [:create, :update, :delete]
   )
 
+  @apidoc """
+  @api {GET} /api/interests Get all interests
+  @apiGroup Interests
+  @apiDescription Fetch all available interests
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse UnauthorizedError
+  """
   def index(conn, _params) do
     interests = Repo.all(Interest)
     render(conn, "index.json", interests: interests)
   end
 
+  @apidoc """
+  @api {POST} /api/interests Create an interest
+  @apiGroup Interests
+  @apiDescription Create an interest
+  @apiParam {String}  interest.name   Name of interest
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+      "name": "interest1",
+      "id": 1
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"interest" => interest_params}) do
     changeset = Interest.changeset(%Interest{}, interest_params)
 
@@ -44,6 +73,20 @@ defmodule Nexpo.InterestController do
     end
   end
 
+  @apidoc """
+  @api {GET} /api/interests/:id Get an interest
+  @apiGroup Interests
+  @apiDescription Fetch a single interest
+  @apiParam {Integer} id    Id of the interest
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+ 
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}) do
     interest =
       Interest
@@ -53,6 +96,20 @@ defmodule Nexpo.InterestController do
     render(conn, "show.json", interest: interest)
   end
 
+  @apidoc """
+  @api {PUT} /api/interests/:id Update an interest
+  @apiGroup Interests
+  @apiDescription Update an interest
+  @apiParam {Integer}  id   Id of interest
+  @apiParam {String}  interest.name   Name of interest
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def update(conn, %{"id" => id, "interest" => interest_params}) do
     interest = Repo.get!(Interest, id)
     changeset = Interest.changeset(interest, interest_params)
@@ -68,6 +125,19 @@ defmodule Nexpo.InterestController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/interests/:id Delete an interest
+  @apiGroup Interests
+  @apiDescription Completely remove an interest
+  @apiParam {Integer}  id   Id of interest
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}) do
     interest = Repo.get!(Interest, id)
 

@@ -190,6 +190,23 @@ defmodule Nexpo.UserController do
     render(conn, "show.json", user: user)
   end
 
+  #todo this doc
+  @apidoc """
+  @api {PUT} api/users Update company website and description
+  @apiGroup User
+  @apiDescription As a representative, update company website and description
+  @apiParam {json} company   Nested JSON object containing below fields 
+  @apiParam {String} company.description   Description of company
+  @apiParam {String} company.website   Company URL
+  @apiSuccessExample {json} Success
+  HTTP 200 OK
+
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+
+  """
   def update(conn, %{"id" => id, "user" => user_params}, _user, _claims) do
     user =
       Repo.get!(User, id)

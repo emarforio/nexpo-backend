@@ -22,11 +22,40 @@ defmodule Nexpo.IndustryController do
     when action in [:create, :update, :delete]
   )
 
+  @apidoc """
+  @api {GET} /api/industries Get all industries
+  @apiGroup Industries
+  @apiDescription Fetch all available industries
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse UnauthorizedError
+  """
   def index(conn, _params) do
     industries = Repo.all(Industry)
     render(conn, "index.json", industries: industries)
   end
 
+  @apidoc """
+  @api {POST} /api/industries Create an industry
+  @apiGroup Industries
+  @apiDescription Create an industry
+  @apiParam {String}  industry.name   Name of industry
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+      "name": "dil",
+      "id": 1
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"industry" => industry_params}) do
     changeset = Industry.changeset(%Industry{}, industry_params)
 
@@ -44,6 +73,20 @@ defmodule Nexpo.IndustryController do
     end
   end
 
+  @apidoc """
+  @api {GET} /api/representatives/:id Get an industry
+  @apiGroup Industries
+  @apiDescription Fetch a single industry
+  @apiParam {Integer} id    Id of the industry
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+ 
+
+  @apiUse NotFoundError
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  """
   def show(conn, %{"id" => id}) do
     industry =
       Repo.get!(Industry, id)
@@ -52,6 +95,20 @@ defmodule Nexpo.IndustryController do
     render(conn, "show.json", industry: industry)
   end
 
+  @apidoc """
+  @api {PUT} /api/industries/:id Update an industry
+  @apiGroup Industries
+  @apiDescription Update an industry
+  @apiParam {Integer}  id   Id of industry
+  @apiParam {String}  industry.name   Name of industry
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def update(conn, %{"id" => id, "industry" => industry_params}) do
     industry =
       Repo.get!(Industry, id)
@@ -72,6 +129,19 @@ defmodule Nexpo.IndustryController do
     end
   end
 
+  @apidoc """
+  @api {DELETE} /api/industries/:id Delete a industry
+  @apiGroup Industries
+  @apiDescription Completely remove a industry
+  @apiParam {Integer}  id   Id of industry
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}) do
     industry = Repo.get!(Industry, id)
 

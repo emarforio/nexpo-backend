@@ -26,6 +26,31 @@ defmodule Nexpo.StudentSessionController do
     when action in [:create, :create_bulk, :delete]
   )
 
+  @apidoc """
+  @api {POST} /api/student_sessions Create a student session
+  @apiGroup Student sessions
+  @apiDescription Create a student session
+  @apiParam {json} student_session   Nested JSON object containing below fields 
+  @apiParam {Integer} student_session.student_session_status   Optional, States- 0: not confirmed, 1: confirmed, 2: declined)
+  @apiParam {Integer} student_session.company_id   Id of company
+  @apiParam {Integer} student_session.student_id   Id of student
+  @apiParam {Integer} student_session.student_session_time_slot_id   Id of student_session_time_slot
+  @apiSuccessExample {json} Success
+
+  HTTP 201 Created
+  {
+    "data": {
+        "student_session_status": 2,
+        "student_id": 1,
+        "id": 1,
+        "company_id": 1
+    }
+  }
+
+  @apiUse BadRequestError
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create(conn, %{"student_session" => student_sessions_params}, _user, _claims) do
     company = Repo.get(Company, student_sessions_params["company_id"])
     student = Repo.get(Student, student_sessions_params["student_id"])
@@ -54,6 +79,18 @@ defmodule Nexpo.StudentSessionController do
     end
   end
 
+  #todo
+  @apidoc """
+  @api {PATCH} /api/student_sessions Create student sessions and send mails
+  @apiGroup Student sessions
+  @apiDescription Create student sessions and send mails
+  @apiSuccessExample {json} Success
+
+  HTTP 200
+
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def create_bulk(conn, %{}, _user, _claims) do
     Company.get_available()
     |> Enum.shuffle()
@@ -123,6 +160,15 @@ defmodule Nexpo.StudentSessionController do
     |> elem(0)
   end
 
+  @apidoc """
+  @api {GET} /student_session_reserves List all reserves for all student sessions 
+  @apiGroup Student sessions
+  @apiSuccessExample {String} Success
+    HTTP 200 Ok
+
+  @apiUse UnauthorizedError
+  @apiUse InternalServerError
+  """
   def show_reserves(conn, %{}, _user, _claims) do
     reserves =
       StudentSession.get_reserves()
@@ -156,6 +202,17 @@ defmodule Nexpo.StudentSessionController do
       String.pad_leading(Integer.to_string(naive_date_time.minute), 2, "0")
   end
 
+  @apidoc """
+  @api {GET} /student_session_info List all accepted student sessions 
+  @apiGroup Student sessions
+  @apiSuccessExample {String} Success
+    HTTP 200 Ok
+    company_name,session_day,session_start,session_end,session_location,student_name,student_email,student_phone_number
+    Google,1,08:00,08:15,Albatraoz,Alfa Student,student1@test.com,0708334455
+
+  @apiUse UnauthorizedError
+  @apiUse InternalServerError
+  """
   def show_all(conn, %{}, _user, _claims) do
     info =
       Company
@@ -191,6 +248,19 @@ defmodule Nexpo.StudentSessionController do
     )
   end
 
+  @apidoc """
+  @api {DELETE} /api/student_sessions/:id Delete a student session
+  @apiGroup Student sessions
+  @apiDescription Completely remove a student session
+  @apiParam {Integer}  id   Id of student session
+  @apiSuccessExample {json} Success
+
+  HTTP 204 OK
+
+  @apiUse UnauthorizedError
+  @apiUse NotFoundError
+
+  """
   def delete(conn, %{"id" => id}, _user, _claims) do
     session = Repo.get!(StudentSession, id)
     company = Repo.get(Company, session.company_id)
@@ -203,6 +273,18 @@ defmodule Nexpo.StudentSessionController do
     |> redirect(to: company_path(conn, :show, company))
   end
 
+  #todo
+  @apidoc """
+  @api {DELETE} /api/student_sessions Delete student sessions and display companies
+  @apiGroup Student sessions
+  @apiDescription Delete student sessions and display companies
+  @apiSuccessExample {json} Success
+
+  HTTP 200
+
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  """
   def delete_bulk(conn, %{}, _user, _claims) do
     time_slots = TimeSlot.get_available_and_non_confirmed()
 
@@ -233,6 +315,32 @@ defmodule Nexpo.StudentSessionController do
     end
   end
 
+  @apidoc """
+  @api {PUT} /me/student_sessions/:id Update student session
+  @apiGroup Student sessions
+  @apiDescription Update a student session
+  @apiParam {Integer} id    The session id
+  @apiParam {json} student_session   Nested JSON object containing below fields 
+  @apiParam {Integer} student_session.student_session_status   States- 0: not confirmed, 1: confirmed, 2: declined)
+  @apiParam {Integer} student_session.company_id   Id of company
+  @apiParam {Integer} student_session.student_id   Id of student
+  @apiParam {Integer} student_session.student_session_time_slot_id   Id of student_session_time_slot
+  @apiSuccessExample {json} Success
+
+  HTTP 200 OK
+  {
+    "data": {
+        "student_session_status": 2,
+        "student_id": 1,
+        "id": 1,
+        "company_id": 1
+    }
+  }
+
+  @apiUse UnauthorizedError
+  @apiUse UnprocessableEntity
+  @apiUse BadRequestError
+  """
   def update_me(conn, %{"id" => id, "student_session" => student_sessions_params}, user, _claims) do
     student = Repo.get_by!(Student, %{user_id: user.id})
 
