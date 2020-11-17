@@ -62,7 +62,7 @@ defmodule Nexpo.RoleController do
   @apiDescription Create a role 
   @apiParam {json} role   Nested JSON object containing below fields 
   @apiParam {String} role.type   Role (admin, student)
-  @apiParam {{array, string}} role.permissions   Permissions for role
+  @apiParam {String[]} role.permissions   Permissions for role
 
   @apiSuccessExample {json} Success
 
@@ -136,7 +136,7 @@ defmodule Nexpo.RoleController do
   @apiDescription Update role type and permissions
   @apiParam {json} role   Nested JSON object containing below fields 
   @apiParam {String} role.type   Role (admin, student)
-  @apiParam {{array, string}} role.permissions   Permissions for role
+  @apiParam {String[]} role.permissions   Permissions for role
   @apiSuccessExample {json} Success
   HTTP 200 OK
 

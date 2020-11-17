@@ -55,7 +55,7 @@ defmodule Nexpo.StudentController do
   @apiParam {Integer}  student.year   Optional, Enrollment year
   @apiParam {String}  student.master   Optional, Programme (C, D, E etc.)
   @apiParam {String}  student.linked_in   Optional, LinkedIn link
-  @apiParam {{array, string}} student.interests   Optional, Student interests
+  @apiParam {String[]} student.interests   Optional, Student interests
   @apiSuccessExample {json} Success
 
   HTTP 201 Created
