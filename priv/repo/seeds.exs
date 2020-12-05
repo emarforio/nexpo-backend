@@ -538,3 +538,99 @@ event_ticket1 = %{
 student_user1 = Repo.get_by(User, %{email: "student1@test.com"}) |> Repo.preload([:student])
 
 EventTicket.create_ticket(event_ticket1)
+
+# Create some forms
+alias Nexpo.Form
+
+form1 = Repo.insert!(%Form{template: "template1"})
+form2 = Repo.insert!(%Form{template: "template2"})
+form3 = Repo.insert!(%Form{template: "template3"})
+
+# Create some form responses
+alias Nexpo.FormResponse
+
+form_response1 = Repo.insert!(%FormResponse{data: [%{"company" => "intel"}]})
+form_response2 = Repo.insert!(%FormResponse{data: [%{"response1" => "response1 here"}]})
+form_response3 = Repo.insert!(%FormResponse{data: [%{"response2" => "response2 here"}, %{"response3" => "response3 here"}]})
+
+FormResponse.build_assoc!(form_response1, 1)
+FormResponse.build_assoc!(form_response2, 2)
+FormResponse.build_assoc!(form_response3, 3)
+
+# Create some form configs
+alias Nexpo.FormConfig
+
+form_config1 = Repo.insert!(%FormConfig{deadline: ~U[2020-12-01 00:00:00Z], max_response: 10, published: true})
+form_config2 = Repo.insert!(%FormConfig{deadline: ~U[2021-12-01 00:00:00Z], max_response: 100, published: false})
+form_config3 = Repo.insert!(%FormConfig{deadline: ~U[2022-12-01 00:00:00Z], max_response: 32, published: true})
+
+FormConfig.build_assoc!(form_config1, 1)
+FormConfig.build_assoc!(form_config2, 2)
+FormConfig.build_assoc!(form_config3, 3)
+
+# Create some auto responses
+alias Nexpo.AutoResponse
+
+auto_response1 =
+  Repo.insert!(%AutoResponse{
+    recipient: "Placeholder",
+    subject: "Pamela Von Sabljar",
+    body: "Swedish"
+  })
+
+auto_response2 =
+  Repo.insert!(%AutoResponse{
+    recipient: "2Placeholder",
+    subject: "2Pamela Von Sabljar",
+    body: "2Swedish"
+  })
+
+auto_response3 =
+  Repo.insert!(%AutoResponse{
+    recipient: "3Placeholder",
+    subject: "3Pamela Von Sabljar",
+    body: "3Swedish"
+  })
+
+AutoResponse.build_assoc!(auto_response1, 1)
+AutoResponse.build_assoc!(auto_response2, 2)
+AutoResponse.build_assoc!(auto_response3, 3)
+
+# Create some response handlers
+alias Nexpo.ResponseHandler
+
+response_handler1 =
+  Repo.insert!(%ResponseHandler{
+    accept: true,
+    rating: true,
+    comment: false
+  })
+
+response_handler2 =
+  Repo.insert!(%ResponseHandler{
+    accept: false,
+    rating: true,
+    comment: false
+  })
+
+response_handler3 =
+  Repo.insert!(%ResponseHandler{
+    accept: false,
+    rating: false,
+    comment: true
+  })
+
+ResponseHandler.build_assoc!(response_handler1, 1)
+ResponseHandler.build_assoc!(response_handler2, 2)
+ResponseHandler.build_assoc!(response_handler3, 3)
+
+# Create some response structs
+alias Nexpo.ResponseStruct
+
+response_struct1 = Repo.insert!(%ResponseStruct{keys: [1, 2, 3]})
+response_struct2 = Repo.insert!(%ResponseStruct{keys: [2, 1, 3]})
+response_struct3 = Repo.insert!(%ResponseStruct{keys: [3, 2, 1]})
+
+ResponseStruct.build_assoc!(response_struct1, 1)
+ResponseStruct.build_assoc!(response_struct2, 2)
+ResponseStruct.build_assoc!(response_struct3, 3)

@@ -2,6 +2,9 @@ defmodule Nexpo.FormConfig do
   use Nexpo.Web, :model
   use Arc.Ecto.Schema
 
+  alias Nexpo.Repo
+  alias Nexpo.FormConfig
+
   schema "form_configs" do
     field(:deadline, :utc_datetime)
     field(:max_response, :integer)
@@ -21,8 +24,14 @@ defmodule Nexpo.FormConfig do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:deadline, :max_response, :published])
-    |> validate_required([:deadline, :max_response, :published])
+    |> cast(params, [:deadline, :max_response, :published, :form_id])
+    |> validate_required([:deadline, :max_response, :published, :form_id])
     |> foreign_key_constraint(:form_id)
+  end
+
+  def build_assoc!(form_config, form_id) do
+    form_config
+    |> FormConfig.changeset(%{form_id: form_id})
+    |> Repo.update!()
   end
 end
