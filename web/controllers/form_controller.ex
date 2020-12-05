@@ -6,13 +6,27 @@ defmodule Nexpo.FormController do
   alias Nexpo.Form
 
   def index(conn, %{}, user, _claims) do
-    events = Repo.all(Form)
+    forms = Repo.all(Form)
 
-    send_resp(conn, :no_content, "")
-    #render(conn, "index.json", forms: forms)
+    render(conn, "index.json", forms: forms)
   end
 
   def get_form(conn, %{"id" => form_id}, user, _claims) do
+
+    form =
+      Repo.get!(Form, form_id)
+      |> Repo.preload([:form_config, :form_responses])
+
+    case form do
+      nil ->
+        conn
+        |> put_status(404)
+        |> render(Nexpo.ErrorView, "404.json")
+
+      form ->
+        render(conn, "show.json", form: form)
+    end
+
     send_resp(conn, :no_content, "")
   end
 
