@@ -67,7 +67,7 @@ defmodule Nexpo.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
       {:guardian, "~> 0.14.5"},
-      {:bamboo, "~> 0.8"},
+      {:bamboo, "~> 2.0"},
       {:excoveralls, "~> 0.7", only: :test},
       {:arc, "~> 0.10.0"},
       {:arc_ecto, "~> 0.10.0"},
