@@ -12,6 +12,7 @@ reset-db:
 
 install-deps:
 	mix local.hex --force && \
+  mix local.rebar --force && \
 	wget https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez && \
 	mix archive.install --force ./phoenix_new.ez && \
 	rm ./phoenix_new.ez && \
