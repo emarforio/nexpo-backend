@@ -48,7 +48,8 @@ config :nexpo, Nexpo.Repo,
   database: "nexpo_dev",
   pool_size: 10,
   username: "nexpo",
-  password: "nexpo"
+  password: "nexpo",
+  hostname: "db"
 
 config :arc,
   # or Arc.Storage.Local
